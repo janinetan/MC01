@@ -2,6 +2,7 @@ package View;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.sql.ResultSet;
@@ -15,6 +16,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -29,9 +33,10 @@ public class ResultsPanel extends JPanel {
 	
 	public static Connection conn;
 	
-	private JLabel queryDisplayer;
+	private JTextArea queryDisplayer;
 	private JLabel timeDisplayer;
 	private JButton btnSummary;
+	private JTable resultTable;
 	
 	public ResultsPanel() throws SQLException {
 		this.setLayout(new BorderLayout());
@@ -41,27 +46,36 @@ public class ResultsPanel extends JPanel {
 	
 	public JPanel setInfoPanel(){
 		JPanel infoPanel = new JPanel();
+		infoPanel.setPreferredSize(new Dimension(500,100));
 		infoPanel.setLayout(new GridLayout(0,2));
 		
 		JPanel queryPanel = new JPanel();
-		queryPanel.setBorder(BorderFactory.createTitledBorder("Query"));
-		queryDisplayer = new JLabel();
-		queryPanel.add(queryDisplayer);
+		queryPanel.setLayout(new BorderLayout());
+		Border border = BorderFactory.createTitledBorder("Query");
+		Border margin = BorderFactory.createEmptyBorder(3,2,3,2);
+		queryPanel.setBorder(new CompoundBorder(border, margin));
+		queryDisplayer = new JTextArea();
+		queryDisplayer.setLineWrap(true);
+		queryDisplayer.setWrapStyleWord(true);
+		queryDisplayer.setEditable(false);
+		queryDisplayer.setOpaque(false);
+		JScrollPane scroll = new JScrollPane(queryDisplayer);
+		queryPanel.add(scroll, BorderLayout.CENTER);
 		
 		JPanel timePanel = new JPanel();
 		timePanel.setBorder(BorderFactory.createTitledBorder("Execution Time"));
 		timePanel.setLayout(new BorderLayout());
-		timeDisplayer = new JLabel();
-		
-		timeDisplayer.setAlignmentX(CENTER_ALIGNMENT);
-		timeDisplayer.setText("Jello");
-		timePanel.add(timeDisplayer, BorderLayout.CENTER);
+		JPanel innerTimePanel = new JPanel();
+		innerTimePanel.setLayout(new BorderLayout());
+		timeDisplayer = new JLabel("hello");
+		timeDisplayer.setHorizontalAlignment(SwingConstants.CENTER);
+		innerTimePanel.add(timeDisplayer, BorderLayout.CENTER);
 		btnSummary = new JButton("Summary");
-		timePanel.add(btnSummary, BorderLayout.EAST);
+		innerTimePanel.add(btnSummary, BorderLayout.EAST);
+		timePanel.add(innerTimePanel, BorderLayout.NORTH);
 		
 		infoPanel.add(queryPanel);
 		infoPanel.add(timePanel);
-		
 		return infoPanel;
 	}
 	
@@ -69,9 +83,9 @@ public class ResultsPanel extends JPanel {
 	{
 		JPanel tablePane;
 		tablePane = new JPanel();
-		JTable table = resultTable(q);
+		resultTable = resultTable(q);
 	    tablePane.setLayout(new BorderLayout());
-	    JScrollPane scroll = new JScrollPane(table);
+	    JScrollPane scroll = new JScrollPane(resultTable);
 	    tablePane.add(scroll);
 	    return tablePane;
 	}

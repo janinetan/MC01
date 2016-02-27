@@ -10,7 +10,6 @@ public class DBConnection {
 	private static final String password = "abc123";
 
 	public DBConnection() {
-
 	}
 
 	public static Connection getConnection() {
@@ -21,7 +20,6 @@ public class DBConnection {
 					password);
 			return conn;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
