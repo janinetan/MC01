@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
@@ -71,6 +73,7 @@ public class ResultsPanel extends JPanel {
 		timeDisplayer.setHorizontalAlignment(SwingConstants.CENTER);
 		innerTimePanel.add(timeDisplayer, BorderLayout.CENTER);
 		btnSummary = new JButton("Summary");
+		btnSummary.addActionListener(new summaryListener());
 		innerTimePanel.add(btnSummary, BorderLayout.EAST);
 		timePanel.add(innerTimePanel, BorderLayout.NORTH);
 		
@@ -147,4 +150,15 @@ public class ResultsPanel extends JPanel {
 		queryDisplayer.setText(query);
 	}
 
+	public class summaryListener implements ActionListener{
+	    @Override
+		public void actionPerformed(ActionEvent e) {
+	    	System.out.println("hello");
+	    	try {
+				setTablePanel("select * from hpq_aquani,hpq_alp where hpq_aquani.hpq_hh_id = hpq_alp.hpq_hh_id");
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
 }
