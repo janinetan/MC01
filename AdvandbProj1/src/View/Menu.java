@@ -270,15 +270,19 @@ public class Menu extends JFrame{
             		return 3;
             	}
             	else if (button.getText() == constants.QUERY_TITLE4){
+            		resultPanel2.setTablePanel(constants.QUERY4_2);
             		return 4;
             	}
             	else if (button.getText() == constants.QUERY_TITLE5){
+            		resultPanel2.setTablePanel(constants.QUERY5_2);
             		return 5;
             	}
             	else if (button.getText() == constants.QUERY_TITLE6){
+            		resultPanel2.setTablePanel(constants.QUERY6_2);
             		return 6;
             	}
             	else if (button.getText() == constants.QUERY_TITLE7){
+            		resultPanel2.setTablePanel(constants.QUERY7_2);
             		return 7;
             	}
             	break;
