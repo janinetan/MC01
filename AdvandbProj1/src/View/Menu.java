@@ -275,56 +275,98 @@ public class Menu extends JFrame{
 	}
 	
 	public void setTableResults() throws SQLException{
-		String query1 = "", query2 = "", query3 = "", query4 = "", query5 = "";
+		String query1 = "", query2 = "", query3 = "",query3_1 ="",query3_2 ="", query4 = "",query4_1 ="",query4_2 ="", query5 = "",query5_1 ="",query5_2 ="";
 		switch(getQuerySelected()){
 			case 1:
 				query1 = constants.QUERY1_1;
 				query2 = constants.QUERY1_2;
 				query3 = constants.QUERY1_3;
+				query3_1 = constants.QUERY1_3_1;
+				query3_2 = constants.QUERY1_3_2;
 				query4 = constants.QUERY1_4;
+				query4_1 = constants.QUERY1_4_1;
+				query4_2 = constants.QUERY1_4_2;
 				query5 = constants.QUERY1_5;
+				query5_1 = constants.QUERY1_5_1;
+				query5_2 = constants.QUERY1_5_2;
 				break;
 			case 2:
 				query1 = constants.QUERY2_1;
 				query2 = constants.QUERY2_2;
 				query3 = constants.QUERY2_3;
+				query3_1 = constants.QUERY2_3_1;
+				query3_2 = constants.QUERY2_3_2;
 				query4 = constants.QUERY2_4;
+				query4_1 = constants.QUERY2_4_1;
+				query4_2 = constants.QUERY2_4_2;
 				query5 = constants.QUERY2_5;
+				query5_1 = constants.QUERY2_5_1;
+				query5_2 = constants.QUERY2_5_2;
 				break;
 			case 3:
 				query1 = constants.QUERY3_1;
 				query2 = constants.QUERY3_2;
 				query3 = constants.QUERY3_3;
-				query4 = constants.QUERY3_4;
-				query5 = constants.QUERY3_5;
+				query3_1 = constants.QUERY3_3_1;
+				query3_2 = constants.QUERY3_3_2;
+				query4 = constants.QUERY4_4;
+				query4_1 = constants.QUERY4_4_1;
+				query4_2 = constants.QUERY4_4_2;
+				query5 = constants.QUERY5_5;
+				query5_1 = constants.QUERY5_5_1;
+				query5_2 = constants.QUERY5_5_2;
 				break;
 			case 4:
 				query1 = constants.QUERY4_1;
 				query2 = constants.QUERY4_2;
 				query3 = constants.QUERY4_3;
+				query3_1 = constants.QUERY4_3_1;
+				query3_2 = constants.QUERY4_3_2;
 				query4 = constants.QUERY4_4;
+				query4_1 = constants.QUERY4_4_1;
+				query4_2 = constants.QUERY4_4_2;
 				query5 = constants.QUERY4_5;
+				query5_1 = constants.QUERY4_5_1;
+				query5_2 = constants.QUERY4_5_2;
 				break;
 			case 5:
 				query1 = constants.QUERY5_1;
 				query2 = constants.QUERY5_2;
 				query3 = constants.QUERY5_3;
+				query3_1 = constants.QUERY5_3_1;
+				query3_2 = constants.QUERY5_3_2;
 				query4 = constants.QUERY5_4;
+				query4_1 = constants.QUERY5_4_1;
+				query4_2 = constants.QUERY5_4_2;
 				query5 = constants.QUERY5_5;
+				query5_1 = constants.QUERY5_5_1;
+				query5_2 = constants.QUERY5_5_2;
 				break;
 			case 6:
 				query1 = constants.QUERY6_1;
 				query2 = constants.QUERY6_2;
 				query3 = constants.QUERY6_3;
+				query3_1 = constants.QUERY6_3_1;
+				query3_2 = constants.QUERY6_3_2;
 				query4 = constants.QUERY6_4;
+				query4_1 = constants.QUERY6_4_1;
+				query4_2 = constants.QUERY6_4_2;
 				query5 = constants.QUERY6_5;
+				query5_1 = constants.QUERY6_5_1;
+				query5_2 = constants.QUERY6_5_2;
 				break;
 			case 7:
 				query1 = constants.QUERY7_1;
 				query2 = constants.QUERY7_2;
 				query3 = constants.QUERY7_3;
+				query3_1 = constants.QUERY7_3_1;
+				query3_2 = constants.QUERY7_3_2;
 				query4 = constants.QUERY7_4;
+				query4_1 = constants.QUERY7_4_1;
+				query4_2 = constants.QUERY7_4_2;
 				query5 = constants.QUERY7_5;
+				query5_1 = constants.QUERY7_5_1;
+				query5_2 = constants.QUERY7_5_2;
 				break;
 		}
 		resultPanel2.setTablePanel(query2);
