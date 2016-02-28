@@ -7,8 +7,10 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -25,6 +27,7 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
+import Model.Constants;
 import Model.DBConnection;
 
 import com.mysql.jdbc.Connection;
@@ -89,6 +92,7 @@ public class ResultsPanel extends JPanel {
 		tablePane = new JPanel();
 	    tablePane.setLayout(new BorderLayout());
 	}
+	
 	public void setTablePanel(String q) throws SQLException
 	{
 		this.remove(tablePane);
@@ -109,7 +113,12 @@ public class ResultsPanel extends JPanel {
 		PreparedStatement stmt;
 		ResultSet rs;
 		stmt = (PreparedStatement) conn.prepareStatement(q);
+		long startTime = System.currentTimeMillis();
 		rs = stmt.executeQuery();
+		long estimatedTime = System.currentTimeMillis() - startTime;
+		String time = estimatedTime +"";
+		setTime(time + " milliseconds");
+		
 		JTable table = new JTable(buildTableModel(rs));
 	    table.setEnabled(false);
 
@@ -123,6 +132,14 @@ public class ResultsPanel extends JPanel {
 	    });
 	    conn.close();
 	    return table;
+	}
+	public void execUpdate(String q) throws SQLException
+	{
+		conn = (Connection) DBConnection.getConnection();
+		PreparedStatement stmt;
+		stmt = (PreparedStatement) conn.prepareStatement(q);
+		stmt.execute();
+		conn.close();
 	}
 	
 	public static DefaultTableModel buildTableModel(ResultSet rs)
