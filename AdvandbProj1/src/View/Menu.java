@@ -201,7 +201,7 @@ public class Menu extends JFrame{
 		resultPanel3 = new ResultsPanel();
 		resultPanel4 = new ResultsPanel();
 		resultPanel5 = new ResultsPanel();
-		resultPanel1.setTablePanel(constants.QUERY1_1);
+		resultPanel2.setTablePanel(constants.QUERY1_2);
 		tabbedPane.addTab("Implemenation 1", resultPanel1 );
 		tabbedPane.addTab("Implemenation 2", resultPanel2 );
 		tabbedPane.addTab("Implemenation 3", resultPanel3 );
@@ -258,15 +258,15 @@ public class Menu extends JFrame{
 
             if (button.isSelected()) {
             	if (button.getText() == constants.QUERY_TITLE1){
-            		resultPanel1.setTablePanel(constants.QUERY1_1);
+            		resultPanel2.setTablePanel(constants.QUERY1_2);
             		return 1;
             	}
             	else if (button.getText() == constants.QUERY_TITLE2){
-            		resultPanel1.setTablePanel(constants.QUERY2_1);
+            		resultPanel2.setTablePanel(constants.QUERY2_2);
             		return 2;
             	}
             	else if (button.getText() == constants.QUERY_TITLE3){
-            		resultPanel1.setTablePanel(constants.QUERY3_1);
+            		resultPanel2.setTablePanel(constants.QUERY3_2);
             		return 3;
             	}
             	else if (button.getText() == constants.QUERY_TITLE4){
