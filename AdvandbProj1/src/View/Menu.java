@@ -141,7 +141,13 @@ public class Menu extends JFrame{
 	private void addFilteringOption(String[] columns){
 	    JPanel filterOption = new JPanel();
 	    filterOption.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JComboBox colList = new JComboBox(columns);
+	    if (filteringPanel.getComponents().length != 0){
+	    	JComboBox opList = new JComboBox(new String[] {"and" , "or"});
+		    opList.setSelectedIndex(0);
+		    filterOption.add(opList);
+	    }
+	    
+	    JComboBox colList = new JComboBox(columns);
 	    colList.setSelectedIndex(0);
 	    filterOption.add(colList);
 	    
@@ -185,6 +191,9 @@ public class Menu extends JFrame{
 	}
 	
 	private void removeFilteringOption(JPanel panel){
+		if (filteringPanel.getComponentZOrder(panel) == 0 && filteringPanel.getComponentCount() > 1){
+			((JPanel)filteringPanel.getComponent(1)).remove(((JPanel)filteringPanel.getComponent(1)).getComponent(0));
+		}
 		filteringPanel.remove(panel);
 		filteringPanel.revalidate();
 		filteringPanel.repaint();
@@ -209,15 +218,25 @@ public class Menu extends JFrame{
 	
 	public String getFilterOptions(){
 		String clause = "";
+		boolean first = true;
 		for(Component c : filteringPanel.getComponents()){
 			JPanel filterOption = (JPanel) c;
-			String column = (String) ((JComboBox)filterOption.getComponent(0)).getSelectedItem();
-			String function = (String) ((JComboBox)filterOption.getComponent(1)).getSelectedItem();
-			String text = "'" + (String) ((JTextField)filterOption.getComponent(2)).getText() + "'";
-			if (column != "" && text != ""){
-				if (clause != "")
-					clause += " and ";
-				clause += column + " " + function + " " + text;
+			String operand = "", column = "", function="", text = "";
+			if (first){
+				column = (String) ((JComboBox)filterOption.getComponent(0)).getSelectedItem();
+				function = (String) ((JComboBox)filterOption.getComponent(1)).getSelectedItem();
+				text = "'" + (String) ((JTextField)filterOption.getComponent(2)).getText() + "'";
+				first = false;
+			}
+			else{
+				operand = " " + (String) ((JComboBox)filterOption.getComponent(0)).getSelectedItem();
+				column = (String) ((JComboBox)filterOption.getComponent(1)).getSelectedItem();
+				function = (String) ((JComboBox)filterOption.getComponent(2)).getSelectedItem();
+				text = "'" + (String) ((JTextField)filterOption.getComponent(3)).getText() + "'";
+			}
+			
+			if (!text.equals("''")){
+				clause += operand + " " + column + " " + function + " " + text;
 			}
 		}
 		return clause;
