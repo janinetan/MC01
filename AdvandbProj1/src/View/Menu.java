@@ -43,18 +43,14 @@ public class Menu extends JFrame{
 	private ResultsPanel resultPanel3;
 	private ResultsPanel resultPanel4;
 	private ResultsPanel resultPanel5;
-
-	String sql="select * from hpq_aquani,hpq_alp where hpq_aquani.hpq_hh_id = hpq_alp.hpq_hh_id";
-	String time = "0.005s\n0.009s";
 	
 	public Menu() throws SQLException {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setBounds(100, 50, 800, 650);
+		this.setBounds(100, 50, 1000, 650);
 		this.setTitle("ADVANDB MCO1");
 		this.setLayout(new BorderLayout());
 		
 		this.add(getControlPanel(), BorderLayout.NORTH);
-		//this.add(resultsPanel, BorderLayout.CENTER);
 		this.add(getResultsPanels(), BorderLayout.CENTER);
 		this.setVisible(true);
 	}
@@ -201,31 +197,38 @@ public class Menu extends JFrame{
 		resultPanel3 = new ResultsPanel();
 		resultPanel4 = new ResultsPanel();
 		resultPanel5 = new ResultsPanel();
-		resultPanel1.setTablePanel(constants.QUERY1_1);
 		tabbedPane.addTab("Implemenation 1", resultPanel1 );
 		tabbedPane.addTab("Implemenation 2", resultPanel2 );
 		tabbedPane.addTab("Implemenation 3", resultPanel3 );
 		tabbedPane.addTab("Implemenation 4", resultPanel4 );
 		tabbedPane.addTab("Implemenation 5", resultPanel5 );
 		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+		setTableResults();
 		return tabbedPane;
 	}
 	
-	public void getFilterOptions(){
+	public String getFilterOptions(){
+		String clause = "";
 		for(Component c : filteringPanel.getComponents()){
 			JPanel filterOption = (JPanel) c;
 			String column = (String) ((JComboBox)filterOption.getComponent(0)).getSelectedItem();
 			String function = (String) ((JComboBox)filterOption.getComponent(1)).getSelectedItem();
-			String text = (String) ((JTextField)filterOption.getComponent(2)).getText();
+			String text = "'" + (String) ((JTextField)filterOption.getComponent(2)).getText() + "'";
+			if (column != "" && text != ""){
+				if (clause != "")
+					clause += " and ";
+				clause += column + " " + function + " " + text;
+			}
 		}
+		return clause;
 	}
 	
 	public class querySelectorListener implements ActionListener{
 	    @Override
 		public void actionPerformed(ActionEvent e) {
 	    	removeAllFilterOptions();
-			try {
-				System.out.println(getQuerySelected());
+	    	try {
+				setTableResults();
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -243,7 +246,7 @@ public class Menu extends JFrame{
 	    	}
 	    	else if (button == btnSearch){
 	    		System.out.println("searching");
-	    		getFilterOptions();
+				System.out.println(getFilterOptions());
 	    	}
 	    	else {
 	    		JPanel panel = (JPanel)button.getParent();
@@ -252,21 +255,74 @@ public class Menu extends JFrame{
 		}
 	}
 	
+	public void setTableResults() throws SQLException{
+		String query1 = "", query2 = "", query3 = "", query4 = "", query5 = "";
+		switch(getQuerySelected()){
+			case 1:
+				query1 = constants.QUERY1_1;
+				query2 = constants.QUERY1_2;
+				query3 = constants.QUERY1_3;
+				query4 = constants.QUERY1_4;
+				query5 = constants.QUERY1_5;
+				break;
+			case 2:
+				query1 = constants.QUERY2_1;
+				query2 = constants.QUERY2_2;
+				query3 = constants.QUERY2_3;
+				query4 = constants.QUERY2_4;
+				query5 = constants.QUERY2_5;
+				break;
+			case 3:
+				query1 = constants.QUERY3_1;
+				query2 = constants.QUERY3_2;
+				query3 = constants.QUERY3_3;
+				query4 = constants.QUERY3_4;
+				query5 = constants.QUERY3_5;
+				break;
+			case 4:
+				query1 = constants.QUERY4_1;
+				query2 = constants.QUERY4_2;
+				query3 = constants.QUERY4_3;
+				query4 = constants.QUERY4_4;
+				query5 = constants.QUERY4_5;
+				break;
+			case 5:
+				query1 = constants.QUERY5_1;
+				query2 = constants.QUERY5_2;
+				query3 = constants.QUERY5_3;
+				query4 = constants.QUERY5_4;
+				query5 = constants.QUERY5_5;
+				break;
+			case 6:
+				query1 = constants.QUERY6_1;
+				query2 = constants.QUERY6_2;
+				query3 = constants.QUERY6_3;
+				query4 = constants.QUERY6_4;
+				query5 = constants.QUERY6_5;
+				break;
+			case 7:
+				query1 = constants.QUERY7_1;
+				query2 = constants.QUERY7_2;
+				query3 = constants.QUERY7_3;
+				query4 = constants.QUERY7_4;
+				query5 = constants.QUERY7_5;
+				break;
+		}
+		resultPanel2.setTablePanel(query2);
+	}
+	
 	public int getQuerySelected() throws SQLException{
         for (Enumeration<AbstractButton> buttons = group.getElements(); buttons.hasMoreElements();) {
             AbstractButton button = buttons.nextElement();
 
             if (button.isSelected()) {
             	if (button.getText() == constants.QUERY_TITLE1){
-            		resultPanel1.setTablePanel(constants.QUERY1_1);
             		return 1;
             	}
             	else if (button.getText() == constants.QUERY_TITLE2){
-            		resultPanel1.setTablePanel(constants.QUERY2_1);
             		return 2;
             	}
             	else if (button.getText() == constants.QUERY_TITLE3){
-            		resultPanel1.setTablePanel(constants.QUERY3_1);
             		return 3;
             	}
             	else if (button.getText() == constants.QUERY_TITLE4){

@@ -2,6 +2,7 @@ package View;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -61,6 +62,7 @@ public class ResultsPanel extends JPanel {
 		queryDisplayer.setWrapStyleWord(true);
 		queryDisplayer.setEditable(false);
 		queryDisplayer.setOpaque(false);
+		queryDisplayer.setFont(new Font("monospaced", Font.PLAIN, 12));
 		JScrollPane scroll = new JScrollPane(queryDisplayer);
 		queryPanel.add(scroll, BorderLayout.CENTER);
 		
@@ -69,7 +71,7 @@ public class ResultsPanel extends JPanel {
 		timePanel.setLayout(new BorderLayout());
 		JPanel innerTimePanel = new JPanel();
 		innerTimePanel.setLayout(new BorderLayout());
-		timeDisplayer = new JLabel("hello");
+		timeDisplayer = new JLabel();
 		timeDisplayer.setHorizontalAlignment(SwingConstants.CENTER);
 		innerTimePanel.add(timeDisplayer, BorderLayout.CENTER);
 		btnSummary = new JButton("Summary");
@@ -113,6 +115,7 @@ public class ResultsPanel extends JPanel {
 		long estimatedTime = System.currentTimeMillis() - startTime;
 		String time = estimatedTime +"";
 		setTime(time + " milliseconds");
+		setQuery(q);
 		
 		JTable table = new JTable(buildTableModel(rs));
 	    table.setEnabled(false);
@@ -128,6 +131,7 @@ public class ResultsPanel extends JPanel {
 	    conn.close();
 	    return table;
 	}
+	
 	public void execUpdate(String q) throws SQLException
 	{
 		conn = (Connection) DBConnection.getConnection();
@@ -174,12 +178,6 @@ public class ResultsPanel extends JPanel {
 	public class summaryListener implements ActionListener{
 	    @Override
 		public void actionPerformed(ActionEvent e) {
-	    	System.out.println("hello");
-	    	try {
-				setTablePanel("select * from hpq_aquani,hpq_alp where hpq_aquani.hpq_hh_id = hpq_alp.hpq_hh_id");
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
 		}
 	}
 }
