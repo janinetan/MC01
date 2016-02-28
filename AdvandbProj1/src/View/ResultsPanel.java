@@ -39,11 +39,13 @@ public class ResultsPanel extends JPanel {
 	private JLabel timeDisplayer;
 	private JButton btnSummary;
 	private JTable resultTable;
+	private JPanel tablePane;
 	
 	public ResultsPanel() throws SQLException {
 		this.setLayout(new BorderLayout());
 		this.add(setInfoPanel(), BorderLayout.NORTH);
-		this.add(setTablePanel("select alp_line from hpq_aquani,hpq_alp where hpq_aquani.hpq_hh_id = hpq_alp.hpq_hh_id"), BorderLayout.CENTER);
+		createTablePanel();
+		this.add(tablePane, BorderLayout.CENTER);
 	}
 	
 	public JPanel setInfoPanel(){
@@ -82,15 +84,22 @@ public class ResultsPanel extends JPanel {
 		return infoPanel;
 	}
 	
-	public JPanel setTablePanel(String q) throws SQLException
+	public void createTablePanel()
 	{
-		JPanel tablePane;
 		tablePane = new JPanel();
-		resultTable = resultTable(q);
 	    tablePane.setLayout(new BorderLayout());
-	    JScrollPane scroll = new JScrollPane(resultTable);
+	}
+	public void setTablePanel(String q) throws SQLException
+	{
+		this.remove(tablePane);
+		JTable table = resultTable(q);
+	    tablePane = new JPanel();
+	    tablePane.setLayout(new BorderLayout());
+	    JScrollPane scroll = new JScrollPane(table);
 	    tablePane.add(scroll);
-	    return tablePane;
+	    this.add(tablePane);
+	    this.revalidate();
+	    this.repaint();
 	}
 	
 	public JTable resultTable(String q) throws SQLException
