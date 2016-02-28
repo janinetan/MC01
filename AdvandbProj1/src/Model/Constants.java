@@ -17,12 +17,16 @@ public class Constants {
 	
 	public static final String QUERY1_1 = "";
 	public static final String QUERY1_2 = "select num_hungry/num_households*100 as 'Proportion of households that experienced food shortage over the past 3 months', days_hungry as 'Average days on food shortage' from (select count(*) as num_hungry, avg((fsdays_1+fsdays_2+fsdays_3)) as days_hungry from hpq_hh where fshort = 1) A, (select count(*) as num_households from hpq_hh) B;";
-	public static final String QUERY1_3 = "";
+	public static final String QUERY1_3_index1 = "CREATE INDEX HUNGER on hpq_hh(fsdays_1,fsdays_2,fsdays_3,fshort)";
+	public static final String QUERY1_3_index2 = "ALTER TABLE hpq_hh DROP INDEX hunger";
+	public static final String QUERY1_3 = "select num_hungry/num_households*100 as 'Proportion of households that experienced food shortage over the past 3 months', days_hungry as 'Average days on food shortage' from (select count(*) as num_hungry, avg((fsdays_1+fsdays_2+fsdays_3)) as days_hungry from hpq_hh where fshort = 1) A,  (select count(*) as num_households from hpq_hh) B;";
 	public static final String QUERY1_4 = "";
 	public static final String QUERY1_5 = "";
 	
 	public static final String QUERY2_1 = "";
 	public static final String QUERY2_2 = "SELECT id, totalperhousehold.total, highest FROM(SELECT max(total) as highest FROM (SELECT SUM(prog_phiheal_spon_nmem) + SUM(prog_phiheal_indiv_nmem) + SUM(prog_phiheal_ofw_nmem) + SUM(prog_phiheal_life_nmem) AS total FROM hpq_hh GROUP BY id) SUM) MAXIMUM, (SELECT *,SUM(prog_phiheal_spon_nmem) + SUM(prog_phiheal_indiv_nmem) + SUM(prog_phiheal_ofw_nmem) + SUM(prog_phiheal_life_nmem) AS total FROM hpq_hh GROUP BY id) totalperhousehold WHERE totalperhousehold.total = highest";
+	public static final String QUERY2_3_index1 = "";
+	public static final String QUERY2_3_index2 = "";
 	public static final String QUERY2_3 = "";
 	public static final String QUERY2_4 = "";
 	public static final String QUERY2_5 = "";
