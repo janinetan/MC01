@@ -137,7 +137,7 @@ public class ResultsPanel extends JPanel {
 		conn = (Connection) DBConnection.getConnection();
 		PreparedStatement stmt;
 		stmt = (PreparedStatement) conn.prepareStatement(q);
-		stmt.execute();
+		stmt.executeBatch();
 		conn.close();
 	}
 	
