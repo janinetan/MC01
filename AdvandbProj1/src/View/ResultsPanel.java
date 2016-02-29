@@ -41,6 +41,10 @@ public class ResultsPanel extends JPanel {
 	private JPanel tablePane;
 	private ArrayList<String> times;
 	
+	public void setTimes(ArrayList<String> times){
+		this.times = times;
+	}
+	
 	public ResultsPanel() throws SQLException {
 		this.setLayout(new BorderLayout());
 		this.add(setInfoPanel(), BorderLayout.NORTH);
