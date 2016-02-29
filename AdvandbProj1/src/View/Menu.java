@@ -318,7 +318,10 @@ public class Menu extends JFrame{
 		String query1 = "", query2 = "", query3 = "",query3_1 ="",query3_2 ="", query4 = "",query4_1 ="",query4_2 ="", query5 = "",query5_1 ="",query5_2 ="";
 		switch(getQuerySelected()){
 			case 1:
-				query1 = constants.QUERY1_1 +addWhere;
+				if(!addWhere.isEmpty()){
+					addWhere = " AND " + addWhere;
+				}
+				query1 = constants.QUERY1_1 + addWhere;
 				query2 = constants.QUERY1_2_w1 +addWhere + constants.QUERY1_2_w2 + addWhere + constants.QUERY1_2_w3;
 				query3 = constants.QUERY1_3_w1 +addWhere + constants.QUERY1_3_w2 +addWhere + constants.QUERY1_3_w3;
 				query3_1 = constants.QUERY1_3_1;
@@ -349,20 +352,20 @@ public class Menu extends JFrame{
 				query3 = constants.QUERY3_3 +addWhere;
 				query3_1 = constants.QUERY3_3_1;
 				query3_2 = constants.QUERY3_3_2;
-				query4 = constants.QUERY4_4 +addWhere;
-				query4_1 = constants.QUERY4_4_1;
-				query4_2 = constants.QUERY4_4_2;
-				query5 = constants.QUERY5_5 +addWhere;
-				query5_1 = constants.QUERY5_5_1;
-				query5_2 = constants.QUERY5_5_2;
+				query4 = constants.QUERY3_4 +addWhere;
+				query4_1 = constants.QUERY3_4_1;
+				query4_2 = constants.QUERY3_4_2;
+				query5 = constants.QUERY3_5 +addWhere;
+				query5_1 = constants.QUERY3_5_1;
+				query5_2 = constants.QUERY3_5_2;
 				break;
 			case 4:
-				query1 = constants.QUERY4_1 +addWhere;
-				query2 = constants.QUERY4_2 +addWhere;
-				query3 = constants.QUERY4_3 +addWhere;
+				query1 = constants.QUERY4_1_w1 +addWhere + constants.QUERY4_1_w2;
+				query2 = constants.QUERY4_2_w1 +addWhere + constants.QUERY4_2_w2;
+				query3 = constants.QUERY4_3_w1 +addWhere + constants.QUERY4_3_w2;
 				query3_1 = constants.QUERY4_3_1;
 				query3_2 = constants.QUERY4_3_2;
-				query4 = constants.QUERY4_4 +addWhere;
+				query4 = constants.QUERY4_4_w1 +addWhere + constants.QUERY4_4_w2;
 				query4_1 = constants.QUERY4_4_1;
 				query4_2 = constants.QUERY4_4_2;
 				query5 = constants.QUERY4_5 +addWhere;
@@ -422,10 +425,10 @@ public class Menu extends JFrame{
 		resultPanel4.setTablePanel(query4);
 		resultPanel4.execUpdate(query4_2);
 
-		resultPanel5.setQuery(query5_1+query5+query5_2);
+		/*resultPanel5.setQuery(query5_1+query5+query5_2);
 		resultPanel5.execUpdate(query5_1);
 		resultPanel5.setTablePanel(query5);
-		resultPanel5.execUpdate(query5_2);
+		resultPanel5.execUpdate(query5_2);*/
 	}
 	
 	public int getQuerySelected() {

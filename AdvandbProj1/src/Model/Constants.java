@@ -59,17 +59,11 @@ public class Constants {
 			+ "from hpq_hh \n"
 			+ "where prog_fudforwrk = 1 or prog_fudforsch = 1 and fshort = 1 "; 
 	public static final String QUERY1_4_w3 = " ) B ";
-	public static final String QUERY1_5_1 = "CREATE VIEW NO_INSURANCE AS "
-			+ "SELECT * \n"
-			+ "FROM hpq_hh \n"
-			+ "WHERE prog_phiheal_spon_nmem = 0 AND prog_phiheal_indiv_nmem = 0 AND prog_phiheal_ofw_nmem = 0 AND prog_phiheal_life_nmem = 0 AND prog_phiheal_empl_nmem = 0; ";
-	public static final String QUERY1_5_2 = 
-			"create procedure no_insurance_proc () "
-			+ "select *"
-			+ "from no_insurance";
-	public static final String QUERY1_5_3 = "DROP VIEW NO_INSURANCE;";
-	public static final String QUERY1_5_4 = "DROP PROCEDURE IF EXISTS no_insurance_proc";
-	public static final String QUERY1_5 = "call no_insurance_proc()";
+	public static final String QUERY1_5_1 = "";
+	public static final String QUERY1_5_2 = "";
+	public static final String QUERY1_5_3 = "";
+	public static final String QUERY1_5_4 = "";
+	public static final String QUERY1_5 = "";
 	
 	public static final String QUERY2_1_w1 = "SELECT id \n"
 			+ "FROM(SELECT min(total) as Lowest \n"
@@ -99,11 +93,13 @@ public class Constants {
 			+ "SELECT * \n"
 			+ "FROM hpq_hh \n"
 			+ "WHERE prog_phiheal_spon_nmem = 0 AND prog_phiheal_indiv_nmem = 0 AND prog_phiheal_ofw_nmem = 0 AND prog_phiheal_life_nmem = 0 AND prog_phiheal_empl_nmem = 0; ";
-	public static final String QUERY2_5_2 = "DROP VIEW NO_INSURANCE;";
-	public static final String QUERY2_5 = 
+	public static final String QUERY2_5_2 = 
 			"create procedure no_insurance_proc () "
 			+ "select *"
 			+ "from no_insurance";
+	public static final String QUERY2_5_3 = "DROP VIEW NO_INSURANCE;";
+	public static final String QUERY2_5_4 = "DROP PROCEDURE IF EXISTS no_insurance_proc";
+	public static final String QUERY2_5 = "call no_insurance_proc()";
 	
 	public static final String QUERY3_1 = "";
 	public static final String QUERY3_2 = "select birthdeaths/livebirths*1000 as 'Infant Mortality Rate' \n"
@@ -145,8 +141,34 @@ public class Constants {
 			+ "from hpq_mem \n"
 			+ "where age < 1) L; \n";
 	
-	public static final String QUERY4_1 = "";
-	public static final String QUERY4_2 = "select case(mdeady) \n"
+	public static final String QUERY4_1_w1 = "select case(mdeady) \n"
+			+ "when 1 then 'Diseases of the heart' \n"
+			+ "when 2 then 'Diseases of the vascular system' \n"
+			+ "when 3 then 'Pneumonia' \n"
+			+ "when 4 then 'Tubercolosis' \n"
+			+ "when 5 then 'Cancer' \n"
+			+ "when 6 then 'Diarrhea' \n"
+			+ "when 7 then 'Measles' \n"
+			+ "when 8 then 'Complication during pregnancy or childbirth' \n"
+			+ "when 9 then 'Accident' \n"
+			+ "when 10 then 'Diabetes' \n"
+			+ "when 11 then 'Disease of the lungs' \n"
+			+ "when 12 then 'Disease of the kidney' \n"
+			+ "when 13 then 'Drowned from flood' \n"
+			+ "when 14 then 'Victim of landslide' \n"
+			+ "when 15 then 'Electrocuted during typhoon' \n"
+			+ "when 16 then 'Murder' \n"
+			+ "else 'Others' \n"
+			+ "end \n"
+			+ "as 'Cause of Death', count(*)/Population*100000 as 'Cause-specific death rate per 100,000 people' \n"
+			+ "from (select mdeady, count(*) as dead \n"
+			+ "from hpq_death \n";
+	public static final String QUERY4_1_w2 = 
+			 "group by mdeady) A \n"
+			+ "join \n" 
+			+ "(select count(*) as population \n"
+			+ "from hpq_hh) B \n";
+	public static final String QUERY4_2_w1 = "select case(mdeady) \n"
 			+ "when 1 then 'Diseases of the heart' \n"
 			+ "when 2 then 'Diseases of the vascular system' \n"
 			+ "when 3 then 'Pneumonia' \n"
@@ -167,11 +189,11 @@ public class Constants {
 			+ "end \n"
 			+ "as 'Cause of Death', count(*)/Population*100000 as 'Cause-specific death rate per 100,000 people' \n"
 			+ "from (select count(*) as Population \n"
-			+ "from hpq_hh) P, hpq_death \n"
-			+ "group by mdeady ";
-	public static final String QUERY4_3_1 = "CREATE INDEX DC on hpq_death(mdeady);";
+			+ "from hpq_hh) P, hpq_death ";
+	public static final String QUERY4_2_w2 = "group by mdeady; ";
+	public static final String QUERY4_3_1 = "CREATE INDEX DC on hpq_death(mdeady, mdeadsx, mdeadage);";
 	public static final String QUERY4_3_2 = "ALTER TABLE hpq_death DROP INDEX dc;";
-	public static final String QUERY4_3 = "select case(mdeady) \n"
+	public static final String QUERY4_3_w1 = "select case(mdeady) \n"
 			+ "when 1 then 'Diseases of the heart' \n"
 			+ "when 2 then 'Diseases of the vascular system' \n"
 			+ "when 3 then 'Pneumonia' \n"
@@ -192,13 +214,13 @@ public class Constants {
 			+ "end \n"
 			+ "as 'Cause of Death', count(*)/Population*100000 as 'Cause-specific death rate per 100,000 people' \n"
 			+ "from (select count(*) as Population \n"
-			+ "from hpq_hh) P, hpq_death \n"
-			+ "group by mdeady ";
+			+ "from hpq_hh) P, hpq_death ";
+	public static final String QUERY4_3_w2 = "group by mdeady; ";
 	public static final String QUERY4_4_1 = "CREATE VIEW household as \n"
 			+ "select count(*) as num_households \n"
 			+ "from hpq_hh \n";
 	public static final String QUERY4_4_2 = "DROP VIEW household";
-	public static final String QUERY4_4 = "select case(mdeady) \n"
+	public static final String QUERY4_4_w1 = "select case(mdeady) \n"
 			+ "when 1 then 'Diseases of the heart' \n"
 			+ "when 2 then 'Diseases of the vascular system' \n"
 			+ "when 3 then 'Pneumonia' \n"
@@ -217,15 +239,16 @@ public class Constants {
 			+ "when 16 then 'Murder' \n"
 			+ "else 'Others' \n"
 			+ "end \n"
-			+ "as 'Cause of Death', count(*)/num_households*100000 as 'Cause-specific death rate per 100,000 people' \n"
-			+ "from household, hpq_death \n"
-			+ "group by mdeady ";
+			+ "as 'Cause of Death', count(*)/Population*100000 as 'Cause-specific death rate per 100,000 people' \n"
+			+ "from household, hpq_death ";
+	public static final String QUERY4_4_w2 = "group by mdeady; ";
 	public static final String QUERY4_5_1 = "CREATE VIEW household as \n"
 			+ "select count(*) as num_households \n"
 			+ "from hpq_hh \n";
-	public static final String QUERY4_5_2 = "DROP VIEW household";
-	public static final String QUERY4_5 = 
-			"create procedure cause_spec_death_rate(in low_age integer, high_age integer) \n"
+	public static final String QUERY4_5_3 = "DROP VIEW household";
+	public static final String QUERY4_5_4 = "DROP PROCEDURE cause_spec_death_rate";
+	public static final String QUERY4_5_2 = 
+			"create procedure cause_spec_death_rate(in sex integer, age integer) \n"
 			+ "select case(mdeady) \n"
 			+ "when 1 then 'Diseases of the heart' \n"
 			+ "when 2 then 'Diseases of the vascular system' \n"
@@ -246,11 +269,10 @@ public class Constants {
 			+ "else 'Others' \n"
 			+ "end \n"
 			+ "as 'Cause of Death', count(*)/Population*100000 as 'Cause-specific death rate per 100,000 people' \n"
-			+ "from (select count(*) as Population \n"
-			+ "from hpq_hh) P, hpq_death \n"
-			+ "where mdeadage <= low_age and mdeadage <= high_age \n"
-			+ "group by mdeady ";
-	
+			+ "household, hpq_death \n";// where mdeadsx=sex, mdeadage=age
+	public static final String QUERY4_5 = "";
+			
+	public static final String QUERY4_5_w2 = "group by mdeady; ";
 	public static final String QUERY5_1 = "";
 	public static final String QUERY5_2 = 
 			"select case(mdeady) \n"
