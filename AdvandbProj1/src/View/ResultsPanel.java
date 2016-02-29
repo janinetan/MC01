@@ -139,6 +139,7 @@ public class ResultsPanel extends JPanel {
 		stmt.execute();
 		conn.close();
 	}
+	
 	public void execBatch(String q) throws SQLException
 	{
 		conn = (Connection) DBConnection.getConnection();
