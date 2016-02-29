@@ -327,7 +327,7 @@ public class Menu extends JFrame{
 				if(!addWhere.isEmpty()){
 					addWhere = " AND " + addWhere;
 				}
-				query1 = constants.QUERY1_1 + addWhere;
+				query1 = constants.QUERY1_1_w1 + addWhere + constants.QUERY1_1_w2 + addWhere + constants.QUERY1_1_w3;
 				query2 = constants.QUERY1_2_w1 +addWhere + constants.QUERY1_2_w2 + addWhere + constants.QUERY1_2_w3;
 				query3 = constants.QUERY1_3_w1 +addWhere + constants.QUERY1_3_w2 +addWhere + constants.QUERY1_3_w3;
 				query3_1 = constants.QUERY1_3_1;
@@ -340,9 +340,6 @@ public class Menu extends JFrame{
 				query5_2 = constants.QUERY1_5_2;
 				break;
 			case 2:
-				query1 = constants.QUERY2_1_w1 +addWhere +constants.QUERY2_1_w2 +addWhere +constants.QUERY2_1_w3 ;
-				query2 = constants.QUERY2_2 +addWhere;
-				query3 = constants.QUERY2_3 +addWhere;
 				if(!addWhere.isEmpty()){
 					where =" WHERE ";
 					add = " AND ";
@@ -365,7 +362,7 @@ public class Menu extends JFrame{
 				if(!addWhere.isEmpty()){
 					addWhere = " AND " + addWhere;
 				}
-				query1 = constants.QUERY3_1 +addWhere;
+				query1 = constants.QUERY3_1_w1 +addWhere + constants.QUERY3_1_w2;
 				query2 = constants.QUERY3_2_w1 +addWhere +constants.QUERY3_2_w2;
 				query3 = constants.QUERY3_3_w1 +addWhere +constants.QUERY3_3_w2;
 				query3_1 = constants.QUERY3_3_1;
@@ -413,7 +410,7 @@ public class Menu extends JFrame{
 				if(!addWhere.isEmpty()){
 					addWhere = " HAVING " + addWhere;
 				}
-				query1 = constants.QUERY6_1;
+				query1 = constants.QUERY6_1 + addWhere;
 				query2 = constants.QUERY6_2 + addWhere;
 				query3 = constants.QUERY6_3 + addWhere;
 				query3_1 = constants.QUERY6_3_1;
@@ -429,7 +426,7 @@ public class Menu extends JFrame{
 				if(!addWhere.isEmpty()){
 					addWhere = " AND " + addWhere;
 				}
-				query1 = constants.QUERY7_1;
+				query1 = constants.QUERY7_1 +addWhere;
 				query2 = constants.QUERY7_2 +addWhere;
 				query3 = constants.QUERY7_3 +addWhere;
 				query3_1 = constants.QUERY7_3_1;
@@ -442,18 +439,20 @@ public class Menu extends JFrame{
 				query5_2 = constants.QUERY7_5_2;
 				break;
 		}
-		/*resultPanel1.setQuery(query1);
-		resultPanel1.setTablePanel(query1);*/
+		resultPanel1.setQuery(query1);
+		resultPanel1.setTablePanel(query1);
 		
 		resultPanel2.setQuery(query2);
 		resultPanel2.setTablePanel(query2);
 		
 		resultPanel3.setQuery(query3_1+query3+query3_2);
+		System.out.println(query3_1+query3+query3_2);
 		resultPanel3.execBatch(query3_1);
 		resultPanel3.setTablePanel(query3);
 		resultPanel3.execBatch(query3_2);
 		
 		resultPanel4.setQuery(query4_1+query4+query4_2);
+		System.out.println(query4_1+query4+query4_2);
 		resultPanel4.execUpdate(query4_1);
 		resultPanel4.setTablePanel(query4);
 		resultPanel4.execUpdate(query4_2);

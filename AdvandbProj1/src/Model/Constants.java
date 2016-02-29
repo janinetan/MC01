@@ -18,7 +18,17 @@ public class Constants {
 	/*QUERY 1*/
 	
 	//1st Implementation
-	public static final String QUERY1_1 = "SELECT * FROM hpq_alp";
+	public static final String QUERY1_1_w1 = "select num_hungry as 'Households that have experienced food shortage', num_hungry/total_houses*100 as 'Percentage among total households', benefited/num_hungry*100 as 'Percentage of hungry households that have benefited from food for work/food for school' \n"
+			+ " from (select count(*) as num_hungry \n"
+			+ " from hpq_hh \n"
+			+ " where fshort = 1 ";
+	public static final String QUERY1_1_w2 = ") NH join \n"
+			+ " (select count(*) as total_houses \n"
+			+ " from hpq_hh) TH join \n"
+			+ " (select count(*) as benefited \n"
+			+ " from hpq_hh \n"
+			+ " where prog_fudforwrk = 1 or prog_fudforsch = 1 and fshort = 1 ";
+	public static final String QUERY1_1_w3 = " ) B ";
 	
 	//2nd Implementation
 	public static final String QUERY1_2_w1 = 
@@ -72,7 +82,15 @@ public class Constants {
 			
 	
 	//5th Implementation
-	public static final String QUERY1_5_1 = "";
+	public static final String QUERY1_5_1 = "create procedure food_shortage_households(in zone_param string, municipality string, barangay, string)"
+			+ "select num_hungry as 'Households that have experienced food shortage', num_hungry/total_houses*100 as 'Percentage among total households', benefited/num_hungry*100 as 'Percentage of hungry households that have benefited from food for work/food for school'"
+			+ "from (select count(*) as num_hungry"
+			+ "from hpq_hh"
+			+ "where fshort = 1 and mun = municipality, zone = zone_param, brgy = barangay) NH,"
+			+ "household_num,"
+			+ "(select count(*) as benefited"
+			+ "from hpq_hh"
+			+ "where prog_fudforwrk = 1 or prog_fudforsch = 1 and fshort = 1 and mun = municipality, zone = zone_param, brgy = barangay) B ";
 	public static final String QUERY1_5_2 = "";
 	public static final String QUERY1_5 = "";
 	public static final String QUERY1_5_3 = "";
@@ -136,14 +154,21 @@ public class Constants {
 	/*QUERY 3*/
 	
 	//1st Implementation
-	public static final String QUERY3_1 = "";
+	public static final String QUERY3_1_w1 = "select birthdeaths/livebirths*1000 as 'Infant Mortality Rate \n'"
+			+ " from (select count(*) as birthdeaths \n"
+			+ " from hpq_death \n"
+			+ " where mdeadage < 1 ";
+	public static final String QUERY3_1_w2 = " ) A join \n"
+			+ " (select count(*) as livebirths \n"
+			+ " from hpq_mem \n"
+			+ " where age < 1) B";
 	
 	//2nd Implementation
 	public static final String QUERY3_2_w1 = "select birthdeaths/livebirths*1000 as 'Infant Mortality Rate' \n"
 			+ "from (select count(*) as birthdeaths \n"
 			+ "from hpq_death \n"
-			+ "where mdeadage < 1";
-	public static final String QUERY3_2_w2 = ") D,  \n" //may space ba?
+			+ "where mdeadage < 1 ";
+	public static final String QUERY3_2_w2 = ") D,  \n" 
 			+ "(select count(*) as livebirths \n"
 			+ "from hpq_mem \n"
 			+ "where age < 1) L \n";
@@ -216,7 +241,7 @@ public class Constants {
 			+ "when 16 then 'Murder' \n"
 			+ "else 'Others' \n"
 			+ "end \n"
-			+ "as 'Cause of Death', count(*)/Population*100000 as 'Cause-specific death rate per 100,000 people' \n"
+			+ "as 'Cause of Death', dead/Population*100000 as 'Cause-specific death rate per 100,000 people' \n"
 			+ "from (select mdeady, count(*) as dead \n"
 			+ "from hpq_death \n";
 	public static final String QUERY4_1_w2 = " group by mdeady) A \n"
@@ -494,7 +519,44 @@ public class Constants {
 	/*QUERY 6*/
 	
 	//1st Implementation
-	public static final String QUERY6_1 = "";
+	public static final String QUERY6_1 = "select case (A.pwd_type) \n"
+			+ "when 1 then 'Total blindness' \n"
+			+ "when 2 then 'Partial blindness' \n"
+			+ "when 3 then 'Low vision' \n"
+			+ "when 4 then 'Totally deaf' \n"
+			+ "when 5 then 'Partially deaf' \n"
+			+ "when 6 then 'Oral defect' \n"
+			+ "when 7 then 'One hand' \n"
+			+ "when 8 then 'No hands' \n"
+			+ "when 9 then 'One leg' \n"
+			+ "when 10 then 'No legs' \n"
+			+ "when 11 then 'Mild cerebral palsy' \n"
+			+ "when 12 then 'Severe cerebral palsy' \n"
+			+ "when 13 then 'Retarded' \n"
+			+ "when 14 then 'Mentally ill' \n"
+			+ "when 15 then 'Mental retardation' \n"
+			+ "when 16 then 'Multiple impairment' \n"
+			+ "else 'Others' \n"
+			+ "end  \n"
+			+ "as 'Disability', num_disabled as Number_of_disabled, num_disabled_house/num_houses*100 as Percentage_among_disabled_households_affected, \n"
+			+ "num_phiheal/num_disabled*100 as Percentage_who_are_PHILHEALTH_sponsored_members \n"
+			+ "from (select pwd_type, count(*) as num_disabled \n"
+			+ "from hpq_mem \n"
+			+ "where pwd_ind = 1 \n"
+		    + "group by pwd_type) A, \n" 
+			+ "(select pwd_type, count(*) as num_phiheal \n"
+			+ "from hpq_mem, hpq_phiheal_spon_mem \n"
+			+ "where pwd_ind = 1 and hpq_mem.id = hpq_phiheal_spon_mem.hpq_hh_id and hpq_mem.memno = hpq_phiheal_spon_mem.phiheal_spon_mem_refno \n"
+		    + "group by pwd_type) B, \n"
+			+ "(select count(*) as num_houses \n"
+			+ "from hpq_hh \n"
+			+ "where disableind = 1) C, \n"
+		    + "(select pwd_type, count(distinct hpq_hh.id) as num_disabled_house \n"
+		    + "from hpq_mem, hpq_hh \n"
+		    + "where pwd_ind = 1 and hpq_mem.id = hpq_hh.id \n"
+		    + "group by pwd_type) D \n"
+			+ "where A.pwd_type = B.pwd_type and B.pwd_type = D.pwd_type \n"
+			+ "group by A.pwd_type \n";
 	
 	//2nd Implementation
 	public static final String QUERY6_2 = "select case (pwd_type) \n"
@@ -608,7 +670,29 @@ public class Constants {
 	/*QUERY 7*/
 	
 	//1st Implementation
-	public static final String QUERY7_1 = "";
+	public static final String QUERY7_1 = "select H.id, H.memno, OFW.OFW_members, Employed_members, Individually_paying_members, Sponsored_members, Lifetime_members \n"
+			+ " from hpq_mem H \n"
+			+ " left join \n"
+			+ " (select *, count(*) as OFW_members \n"
+			+ " from hpq_phiheal_ofw_mem \n"
+			+ " group by hpq_hh_id,phiheal_ofw_mem_refno) OFW on H.id = OFW.hpq_hh_id AND H.memno = phiheal_ofw_mem_refno \n"
+			+ " left join \n"
+			+ " (select *, count(*) as Employed_members \n"
+			+ " from hpq_phiheal_empl_mem \n"
+			+ " group by hpq_hh_id, phiheal_empl_mem_refno) EMP on H.id = EMP.hpq_hh_id AND H.memno = phiheal_empl_mem_refno \n"
+			+ " left join \n"
+			+ " (select *, count(*) as Individually_paying_members \n"
+			+ " from hpq_phiheal_indiv_mem \n"
+			+ " group by hpq_hh_id, phiheal_indiv_mem_refno) IND on H.id = IND.hpq_hh_id AND H.memno = phiheal_indiv_mem_refno \n"
+			+ " left join \n"
+			+ " (select *, count(*) as Lifetime_members \n"
+			+ " from hpq_phiheal_life_mem \n"
+			+ " group by hpq_hh_id,phiheal_life_mem_refno) LIF on H.id = LIF.hpq_hh_id AND H.memno = phiheal_life_mem_refno \n"
+			+ " left join \n"
+			+ " (select *, count(*) as Sponsored_members \n"
+			+ " from hpq_phiheal_spon_mem \n"
+			+ " group by hpq_hh_id,phiheal_spon_mem_refno) SPO on H.id = SPO.hpq_hh_id AND H.memno = phiheal_spon_mem_refno \n"
+			+ " where not(OFW.OFW_members is null and Employed_members is null and Individually_paying_members is null and Sponsored_members is null and Lifetime_members is null) \n";
 	
 	//2nd Implementation
 	public static final String QUERY7_2 = 
