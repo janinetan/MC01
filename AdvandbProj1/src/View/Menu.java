@@ -27,14 +27,18 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 
+import Model.Column;
+import Model.ComboBoxConstants;
 import Model.Constants;
 
 public class Menu extends JFrame{
 	
 	private ButtonGroup group;
 	private Constants constants;
+	private ComboBoxConstants columnConstants;
 	
 	private JPanel filteringPanel;
+	private ArrayList<Column> cols;
 	private JButton btnAdd;
 	private JButton btnSearch;
 	
@@ -138,7 +142,7 @@ public class Menu extends JFrame{
 	    return rightPanel;
 	}
 	
-	private void addFilteringOption(String[] columns){
+	private void addFilteringOption(ArrayList<Column> columns){
 	    JPanel filterOption = new JPanel();
 	    filterOption.setLayout(new FlowLayout(FlowLayout.LEFT));
 	    if (filteringPanel.getComponents().length != 0){
@@ -147,11 +151,15 @@ public class Menu extends JFrame{
 		    filterOption.add(opList);
 	    }
 	    
-	    JComboBox colList = new JComboBox(columns);
+	    ArrayList<String> cols = new ArrayList<String>();
+	    for (Column c: columns){
+	    	cols.add(c.getName());
+	    }
+	    JComboBox colList = new JComboBox(cols.toArray());
 	    colList.setSelectedIndex(0);
 	    filterOption.add(colList);
 	    
-	    JComboBox funcList = new JComboBox(getFunctions(constants.TYPE_INT));
+	    JComboBox funcList = new JComboBox();
 	    colList.setSelectedIndex(0);
 	    filterOption.add(funcList);
 	    
@@ -165,6 +173,26 @@ public class Menu extends JFrame{
 	    filteringPanel.add(filterOption);
 	    filteringPanel.revalidate();
 	    filteringPanel.repaint();
+	    setFunc(filterOption, columns.get(0).getType());
+	    colList.addActionListener(new comboListener());
+	}
+	
+	private void setFunc(JPanel panel, int i){
+		JComboBox func = null;
+		if (filteringPanel.getComponentZOrder(panel) == 0){
+			func = (JComboBox) panel.getComponent(1); 
+		}
+		else{
+			func = (JComboBox) panel.getComponent(2);
+		}
+		func.setModel(new JComboBox(getFunctions(i)).getModel());
+	}
+	
+	public class comboListener implements ActionListener{
+	    @Override
+		public void actionPerformed(ActionEvent e) {
+	    	setFunc((JPanel)((Component)e.getSource()).getParent(), columnConstants.findColumn(setComboBoxFilter(), (String) ((JComboBox)e.getSource()).getSelectedItem() ).getType());
+		}
 	}
 	
 	private String[] getFunctions(int type){
@@ -223,14 +251,14 @@ public class Menu extends JFrame{
 			JPanel filterOption = (JPanel) c;
 			String operand = "", column = "", function="", text = "";
 			if (first){
-				column = (String) ((JComboBox)filterOption.getComponent(0)).getSelectedItem();
+				column = columnConstants.findColumn(setComboBoxFilter(), (String) ((JComboBox)filterOption.getComponent(0)).getSelectedItem() ).getColName();
 				function = (String) ((JComboBox)filterOption.getComponent(1)).getSelectedItem();
 				text = "'" + (String) ((JTextField)filterOption.getComponent(2)).getText() + "'";
 				first = false;
 			}
 			else{
 				operand = " " + (String) ((JComboBox)filterOption.getComponent(0)).getSelectedItem();
-				column = (String) ((JComboBox)filterOption.getComponent(1)).getSelectedItem();
+				column = columnConstants.findColumn(setComboBoxFilter(), (String) ((JComboBox)filterOption.getComponent(1)).getSelectedItem() ).getColName();
 				function = (String) ((JComboBox)filterOption.getComponent(2)).getSelectedItem();
 				text = "'" + (String) ((JTextField)filterOption.getComponent(3)).getText() + "'";
 			}
@@ -255,23 +283,29 @@ public class Menu extends JFrame{
 		}
 	}
 	
+	public ArrayList<Column> setComboBoxFilter(){
+		ArrayList<Column> combo = null;
+		switch(getQuerySelected()){
+			case 1: combo = columnConstants.OPTIONS_QUERY1; break;
+			
+		}
+		return combo;
+	}
+	
 	public class filteringListener implements ActionListener{
 	    @Override
 		public void actionPerformed(ActionEvent e) {
 	    	JButton button = (JButton) e.getSource();
 	    	if (button == btnAdd){
-				String[] petStrings = { "Bird", "Cat", "Dog", "Rabbit", "Pig" };
-				addFilteringOption(petStrings);
+				addFilteringOption(setComboBoxFilter());
 	    	}
 	    	else if (button == btnSearch){
 	    		System.out.println("searching");
 				try {
 					setTableResults(getFilterOptions());
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				//get filter options
 	    	}
 	    	else {
 	    		JPanel panel = (JPanel)button.getParent();
@@ -394,7 +428,7 @@ public class Menu extends JFrame{
 		resultPanel5.execUpdate(query5_2);*/
 	}
 	
-	public int getQuerySelected() throws SQLException{
+	public int getQuerySelected() {
         for (Enumeration<AbstractButton> buttons = group.getElements(); buttons.hasMoreElements();) {
             AbstractButton button = buttons.nextElement();
 

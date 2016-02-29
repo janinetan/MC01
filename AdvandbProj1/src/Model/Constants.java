@@ -1,13 +1,13 @@
 package Model;
 
 public class Constants {
-	public static final String QUERY_TITLE1 = "query 1";
-	public static final String QUERY_TITLE2 = "query 2";
-	public static final String QUERY_TITLE3 = "query 3";
-	public static final String QUERY_TITLE4 = "query 4";
+	public static final String QUERY_TITLE1 = "Household percentage with food shortage despite food benefits";
+	public static final String QUERY_TITLE2 = "Household with the no health insurance";
+	public static final String QUERY_TITLE3 = "Infant mortality rate";
+	public static final String QUERY_TITLE4 = "Cause specific death rate";
 	public static final String QUERY_TITLE5 = "query 5";
-	public static final String QUERY_TITLE6 = "query 6";
-	public static final String QUERY_TITLE7 = "query 7";
+	public static final String QUERY_TITLE6 = "Disability types and percentage of affected individuals with sponsors";
+	public static final String QUERY_TITLE7 = "Insurance availed per individual";
 	
 	public static final String QUERY_EXEC = "execute";
 	public static final String QUERY_UPDATE = "update";
