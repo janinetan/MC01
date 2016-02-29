@@ -16,8 +16,7 @@ public class ComboBoxConstants {
 			new Column("phsize", "OFW Members", Constants.TYPE_INT)));
 	
 	public static ArrayList<Column> OPTIONS_QUERY3 = new ArrayList<Column>(Arrays.asList(
-			new Column("sex", "Gender", Constants.TYPE_INT),
-			new Column("per_x_birth", "Municipality", Constants.TYPE_INT)));
+			new Column("mdeadsx", "Gender", Constants.TYPE_INT)));
 	
 	public static ArrayList<Column> OPTIONS_QUERY4 = new ArrayList<Column>(Arrays.asList(
 			new Column("mdeadsx", "Gender", Constants.TYPE_INT),
@@ -29,13 +28,13 @@ public class ComboBoxConstants {
 			new Column("brgy", "Barangay", Constants.TYPE_INT)));
 	
 	public static ArrayList<Column> OPTIONS_QUERY6 = new ArrayList<Column>(Arrays.asList(
-			new Column("zone", "Zone", Constants.TYPE_INT),
-			new Column("mun", "Municipality", Constants.TYPE_INT),
-			new Column("brgy", "Barangay", Constants.TYPE_INT)));
+			new Column("Number_of_disabled", "Number of Disabled", Constants.TYPE_INT),
+			new Column("Percentage_among_disabled_households_affected", "% of disabled households affected", Constants.TYPE_INT),
+			new Column("Percentage_who_are_PHILHEALTH_sponsored_members", "% of sponsored PHILHEALTH", Constants.TYPE_INT)));
 	
 	public static ArrayList<Column> OPTIONS_QUERY7 = new ArrayList<Column>(Arrays.asList(
-			new Column("gender", "Gender", Constants.TYPE_INT),
-			new Column("household_id", "Household Number", Constants.TYPE_INT),
+			new Column("sex", "Gender", Constants.TYPE_INT),
+			new Column("id", "Household Number", Constants.TYPE_INT),
 			new Column("memno", "Member Number", Constants.TYPE_INT)));
 	
 	public static Column findColumn(ArrayList<Column> cols, String name){

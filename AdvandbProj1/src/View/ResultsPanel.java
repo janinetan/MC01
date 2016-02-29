@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -36,8 +38,8 @@ public class ResultsPanel extends JPanel {
 	private JTextArea queryDisplayer;
 	private JLabel timeDisplayer;
 	private JButton btnSummary;
-	private JTable resultTable;
 	private JPanel tablePane;
+	private ArrayList<String> times;
 	
 	public ResultsPanel() throws SQLException {
 		this.setLayout(new BorderLayout());
@@ -186,6 +188,7 @@ public class ResultsPanel extends JPanel {
 	public class summaryListener implements ActionListener{
 	    @Override
 		public void actionPerformed(ActionEvent e) {
+	    	new SummaryView(times);
 		}
 	}
 }

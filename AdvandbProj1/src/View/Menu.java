@@ -51,7 +51,7 @@ public class Menu extends JFrame{
 	public Menu() throws SQLException {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(100, 50, 1000, 650);
-		this.setTitle("ADVANDB MCO1");
+		this.setTitle("ADVANDB MCO1 - Health Questions PH");
 		this.setLayout(new BorderLayout());
 		
 		this.add(getControlPanel(), BorderLayout.NORTH);
@@ -256,7 +256,7 @@ public class Menu extends JFrame{
 				text = "'" + (String) ((JTextField)filterOption.getComponent(2)).getText() + "'";
 				first = false;
 			}
-			else{
+			else{ 
 				operand = " " + (String) ((JComboBox)filterOption.getComponent(0)).getSelectedItem();
 				column = columnConstants.findColumn(setComboBoxFilter(), (String) ((JComboBox)filterOption.getComponent(1)).getSelectedItem() ).getColName();
 				function = (String) ((JComboBox)filterOption.getComponent(2)).getSelectedItem();
@@ -264,7 +264,7 @@ public class Menu extends JFrame{
 			}
 			
 			if (!text.equals("''")){
-				clause += operand + " " + column + " " + function + " " + text;
+				clause += operand + " " + column + " " + function + " " + text +" ";
 			}
 		}
 		return clause;
@@ -321,6 +321,7 @@ public class Menu extends JFrame{
 	
 	public void setTableResults(String addWhere) throws SQLException{
 		String query1 = "", query2 = "", query3 = "",query3_1 ="",query3_2 ="", query4 = "",query4_1 ="",query4_2 ="", query5 = "",query5_1 ="",query5_2 ="";
+		String add="",where="";
 		switch(getQuerySelected()){
 			case 1:
 				if(!addWhere.isEmpty()){
@@ -342,29 +343,44 @@ public class Menu extends JFrame{
 				query1 = constants.QUERY2_1_w1 +addWhere +constants.QUERY2_1_w2 +addWhere +constants.QUERY2_1_w3 ;
 				query2 = constants.QUERY2_2 +addWhere;
 				query3 = constants.QUERY2_3 +addWhere;
+				if(!addWhere.isEmpty()){
+					where =" WHERE ";
+					add = " AND ";
+				}
+				query1 = constants.QUERY2_1_w1 + where +addWhere +constants.QUERY2_1_w2 + where +addWhere +constants.QUERY2_1_w3 ;
+				query2 = constants.QUERY2_2 + add + addWhere;
+				query3 = constants.QUERY2_3 + add + addWhere;
 				query3_1 = constants.QUERY2_3_1;
 				query3_2 = constants.QUERY2_3_2;
 				query4 = constants.QUERY2_4;
 				query4_1 = constants.QUERY2_4_1 +addWhere;
+				query4_1 = constants.QUERY2_4_1 + add + addWhere;
 				query4_2 = constants.QUERY2_4_2;
 				query5 = constants.QUERY2_5;
 				query5_1 = constants.QUERY2_5_1 +addWhere;
+				query5_1 = constants.QUERY2_5_1 + add + addWhere;
 				query5_2 = constants.QUERY2_5_2;
 				break;
 			case 3:
+				if(!addWhere.isEmpty()){
+					addWhere = " AND " + addWhere;
+				}
 				query1 = constants.QUERY3_1 +addWhere;
-				query2 = constants.QUERY3_2 +addWhere;
-				query3 = constants.QUERY3_3 +addWhere;
+				query2 = constants.QUERY3_2_w1 +addWhere +constants.QUERY3_2_w2;
+				query3 = constants.QUERY3_3_w1 +addWhere +constants.QUERY3_3_w2;
 				query3_1 = constants.QUERY3_3_1;
 				query3_2 = constants.QUERY3_3_2;
-				query4 = constants.QUERY3_4 +addWhere;
-				query4_1 = constants.QUERY3_4_1;
+				query4 = constants.QUERY3_4;
+				query4_1 = constants.QUERY3_4_1 + addWhere;
 				query4_2 = constants.QUERY3_4_2;
-				query5 = constants.QUERY3_5 +addWhere;
-				query5_1 = constants.QUERY3_5_1;
+				query5 = constants.QUERY3_5;
+				query5_1 = constants.QUERY3_5_1 +addWhere;
 				query5_2 = constants.QUERY3_5_2;
 				break;
 			case 4:
+				if(!addWhere.isEmpty()){
+					addWhere =" WHERE " + addWhere;
+				}
 				query1 = constants.QUERY4_1_w1 +addWhere + constants.QUERY4_1_w2;
 				query2 = constants.QUERY4_2_w1 +addWhere + constants.QUERY4_2_w2;
 				query3 = constants.QUERY4_3_w1 +addWhere + constants.QUERY4_3_w2;
@@ -378,12 +394,15 @@ public class Menu extends JFrame{
 				query5_2 = constants.QUERY4_5_2;
 				break;
 			case 5:
-				query1 = constants.QUERY5_1 +addWhere;
-				query2 = constants.QUERY5_2 +addWhere;
-				query3 = constants.QUERY5_3 +addWhere;
+				if(!addWhere.isEmpty()){
+					addWhere = " AND " + addWhere;
+				}
+				query1 = constants.QUERY5_1_w1+addWhere +constants.QUERY5_1_w2;
+				query2 = constants.QUERY5_2_w1 +addWhere +constants.QUERY5_2_w2;
+				query3 = constants.QUERY5_3_w1 +addWhere+ constants.QUERY5_3_w2;
 				query3_1 = constants.QUERY5_3_1;
 				query3_2 = constants.QUERY5_3_2;
-				query4 = constants.QUERY5_4 +addWhere;
+				query4 = constants.QUERY5_4_w1 +addWhere +constants.QUERY5_4_w2;
 				query4_1 = constants.QUERY5_4_1;
 				query4_2 = constants.QUERY5_4_2;
 				query5 = constants.QUERY5_5 +addWhere;
@@ -391,12 +410,15 @@ public class Menu extends JFrame{
 				query5_2 = constants.QUERY5_5_2;
 				break;
 			case 6:
+				if(!addWhere.isEmpty()){
+					addWhere = " HAVING " + addWhere;
+				}
 				query1 = constants.QUERY6_1;
-				query2 = constants.QUERY6_2;
-				query3 = constants.QUERY6_3;
+				query2 = constants.QUERY6_2 + addWhere;
+				query3 = constants.QUERY6_3 + addWhere;
 				query3_1 = constants.QUERY6_3_1;
 				query3_2 = constants.QUERY6_3_2;
-				query4 = constants.QUERY6_4;
+				query4 = constants.QUERY6_4 + addWhere;
 				query4_1 = constants.QUERY6_4_1;
 				query4_2 = constants.QUERY6_4_2;
 				query5 = constants.QUERY6_5;
@@ -404,12 +426,15 @@ public class Menu extends JFrame{
 				query5_2 = constants.QUERY6_5_2;
 				break;
 			case 7:
+				if(!addWhere.isEmpty()){
+					addWhere = " AND " + addWhere;
+				}
 				query1 = constants.QUERY7_1;
-				query2 = constants.QUERY7_2;
-				query3 = constants.QUERY7_3;
+				query2 = constants.QUERY7_2 +addWhere;
+				query3 = constants.QUERY7_3 +addWhere;
 				query3_1 = constants.QUERY7_3_1;
 				query3_2 = constants.QUERY7_3_2;
-				query4 = constants.QUERY7_4;
+				query4 = constants.QUERY7_4 +addWhere;
 				query4_1 = constants.QUERY7_4_1;
 				query4_2 = constants.QUERY7_4_2;
 				query5 = constants.QUERY7_5;
@@ -417,6 +442,9 @@ public class Menu extends JFrame{
 				query5_2 = constants.QUERY7_5_2;
 				break;
 		}
+		/*resultPanel1.setQuery(query1);
+		resultPanel1.setTablePanel(query1);*/
+		
 		resultPanel2.setQuery(query2);
 		resultPanel2.setTablePanel(query2);
 		
