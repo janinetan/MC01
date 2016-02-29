@@ -136,14 +136,6 @@ public class ResultsPanel extends JPanel {
 		conn = (Connection) DBConnection.getConnection();
 		PreparedStatement stmt;
 		stmt = (PreparedStatement) conn.prepareStatement(q);
-		stmt.execute();
-		conn.close();
-	}
-	public void execBatch(String q) throws SQLException
-	{
-		conn = (Connection) DBConnection.getConnection();
-		PreparedStatement stmt;
-		stmt = (PreparedStatement) conn.prepareStatement(q);
 		stmt.executeBatch();
 		conn.close();
 	}
