@@ -287,7 +287,12 @@ public class Menu extends JFrame{
 		ArrayList<Column> combo = null;
 		switch(getQuerySelected()){
 			case 1: combo = columnConstants.OPTIONS_QUERY1; break;
-			
+			case 2: combo = columnConstants.OPTIONS_QUERY2; break;
+			case 3: combo = columnConstants.OPTIONS_QUERY3; break;
+			case 4: combo = columnConstants.OPTIONS_QUERY4; break;
+			case 5: combo = columnConstants.OPTIONS_QUERY5; break;
+			case 6: combo = columnConstants.OPTIONS_QUERY6; break;
+			case 7: combo = columnConstants.OPTIONS_QUERY7; break;
 		}
 		return combo;
 	}
