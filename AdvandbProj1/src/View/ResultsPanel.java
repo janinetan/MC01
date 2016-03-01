@@ -120,7 +120,6 @@ public class ResultsPanel extends JPanel {
 		long estimatedTime = System.currentTimeMillis() - startTime;
 		String time = estimatedTime +"";
 		setTime(time + " milliseconds");
-		setQuery(q);
 		
 		JTable table = new JTable(buildTableModel(rs));
 	    table.setEnabled(false);
@@ -182,11 +181,12 @@ public class ResultsPanel extends JPanel {
 	}
 	
 	public void setTime(String time ){
+		System.out.println("------------------------");
 		timeDisplayer.setText(time);
 	}
 	
 	public void setQuery(String query){
-		System.out.println(query);
+		
 		queryDisplayer.setText(query);
 	}
 
