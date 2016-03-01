@@ -186,6 +186,7 @@ public class ResultsPanel extends JPanel {
 	}
 	
 	public void setQuery(String query){
+		System.out.println(query);
 		queryDisplayer.setText(query);
 	}
 

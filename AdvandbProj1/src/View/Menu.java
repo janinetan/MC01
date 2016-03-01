@@ -322,25 +322,28 @@ public class Menu extends JFrame{
 	}
 	
 	public void setTableResults(String addWhere) throws SQLException{
-		String query1 = "", query2 = "", query3 = "",query3_1 ="",query3_2 ="", query4 = "",query4_1 ="",query4_2 ="", query5 = "",query5_1 ="",query5_2 ="";
-		String add="",where="";
+		String query1 = "", query2 = "", query3 = "",query3_1 ="",query3_2 ="", query4 = "",query4_1 ="",query4_2 ="", query5 = "",query5_1 ="",query5_2 ="",query5_3="",query5_4="";
+		String add="",where="",into="",having="";
 		ArrayList<String> times1 = null, times2 = null, times3 = null, times4 = null, times5 = null;
 		switch(getQuerySelected()){
 			case 1:
 				if(!addWhere.isEmpty()){
-					addWhere = " AND " + addWhere;
+					add = " AND ";
 				}
-				query1 = constants.QUERY1_1_w1 + addWhere + constants.QUERY1_1_w2 + addWhere + constants.QUERY1_1_w3;
-				query2 = constants.QUERY1_2_w1 +addWhere + constants.QUERY1_2_w2 + addWhere + constants.QUERY1_2_w3;
-				query3 = constants.QUERY1_3_w1 +addWhere + constants.QUERY1_3_w2 +addWhere + constants.QUERY1_3_w3;
+				query1 = constants.QUERY1_1_w1 + add +addWhere + constants.QUERY1_1_w2 + add +addWhere + constants.QUERY1_1_w3;
+				query2 = constants.QUERY1_2_w1 +add +addWhere + constants.QUERY1_2_w2 + add +addWhere + constants.QUERY1_2_w3;
+				query3 = constants.QUERY1_3_w1 +add +addWhere + constants.QUERY1_3_w2 +add +addWhere + constants.QUERY1_3_w3;
 				query3_1 = constants.QUERY1_3_1;
 				query3_2 = constants.QUERY1_3_2;
-				query4 = constants.QUERY1_4_w1 +addWhere + constants.QUERY1_4_w2 +addWhere + constants.QUERY1_4_w3;
+				query4 = constants.QUERY1_4_w1 +add +addWhere + constants.QUERY1_4_w2 +add +addWhere + constants.QUERY1_4_w3;
 				query4_1 = constants.QUERY1_4_1;
 				query4_2 = constants.QUERY1_4_2;
-				query5 = constants.QUERY1_5 +addWhere;
+				query5 = constants.QUERY1_5 +add +addWhere;
 				query5_1 = constants.QUERY1_5_1;
 				query5_2 = constants.QUERY1_5_2;
+				//query5 = constants.QUERY1_5_w1 + param + constants.QUERY1_5_2_w2+ addWhere + constants.QUERY1_5_2_w3 +addWhere +constants.QUERY1_5_2_w4;
+				query5_3 = constants.QUERY1_5_3;
+				query5_4 = constants.QUERY1_5_4;
 				times1 = timeConstants.TIMES_QUERY1_1;
 				times2 = timeConstants.TIMES_QUERY1_2;
 				times3 = timeConstants.TIMES_QUERY1_3;
@@ -358,13 +361,13 @@ public class Menu extends JFrame{
 				query3_1 = constants.QUERY2_3_1;
 				query3_2 = constants.QUERY2_3_2;
 				query4 = constants.QUERY2_4;
-				query4_1 = constants.QUERY2_4_1 +addWhere;
 				query4_1 = constants.QUERY2_4_1 + add + addWhere;
 				query4_2 = constants.QUERY2_4_2;
 				query5 = constants.QUERY2_5;
-				query5_1 = constants.QUERY2_5_1 +addWhere;
 				query5_1 = constants.QUERY2_5_1 + add + addWhere;
 				query5_2 = constants.QUERY2_5_2;
+				query5_3 = constants.QUERY2_5_3;
+				query5_4 = constants.QUERY2_5_4;
 				times1 = timeConstants.TIMES_QUERY2_1;
 				times2 = timeConstants.TIMES_QUERY2_2;
 				times3 = timeConstants.TIMES_QUERY2_3;
@@ -373,19 +376,21 @@ public class Menu extends JFrame{
 				break;
 			case 3:
 				if(!addWhere.isEmpty()){
-					addWhere = " AND " + addWhere;
+					add = " AND ";
 				}
-				query1 = constants.QUERY3_1_w1 +addWhere + constants.QUERY3_1_w2;
-				query2 = constants.QUERY3_2_w1 +addWhere +constants.QUERY3_2_w2;
-				query3 = constants.QUERY3_3_w1 +addWhere +constants.QUERY3_3_w2;
+				query1 = constants.QUERY3_1_w1 + add +addWhere + constants.QUERY3_1_w2;
+				query2 = constants.QUERY3_2_w1 +add +addWhere +constants.QUERY3_2_w2;
+				query3 = constants.QUERY3_3_w1 +add +addWhere +constants.QUERY3_3_w2;
 				query3_1 = constants.QUERY3_3_1;
 				query3_2 = constants.QUERY3_3_2;
 				query4 = constants.QUERY3_4;
-				query4_1 = constants.QUERY3_4_1 + addWhere;
+				query4_1 = constants.QUERY3_4_1 + add + addWhere;
 				query4_2 = constants.QUERY3_4_2;
 				query5 = constants.QUERY3_5;
-				query5_1 = constants.QUERY3_5_1 +addWhere;
+				query5_1 = constants.QUERY3_5_1 +add + addWhere;
 				query5_2 = constants.QUERY3_5_2;
+				query5_3 = constants.QUERY3_5_3;
+				query5_4 = constants.QUERY3_5_4;
 				times1 = timeConstants.TIMES_QUERY3_1;
 				times2 = timeConstants.TIMES_QUERY3_2;
 				times3 = timeConstants.TIMES_QUERY3_3;
@@ -394,19 +399,21 @@ public class Menu extends JFrame{
 				break;
 			case 4:
 				if(!addWhere.isEmpty()){
-					addWhere =" WHERE " + addWhere;
+					where =" WHERE ";
 				}
-				query1 = constants.QUERY4_1_w1 +addWhere + constants.QUERY4_1_w2;
-				query2 = constants.QUERY4_2_w1 +addWhere + constants.QUERY4_2_w2;
-				query3 = constants.QUERY4_3_w1 +addWhere + constants.QUERY4_3_w2;
+				query1 = constants.QUERY4_1_w1 + where +addWhere + constants.QUERY4_1_w2;
+				query2 = constants.QUERY4_2_w1 +where +addWhere + constants.QUERY4_2_w2;
+				query3 = constants.QUERY4_3_w1 +where +addWhere + constants.QUERY4_3_w2;
 				query3_1 = constants.QUERY4_3_1;
 				query3_2 = constants.QUERY4_3_2;
-				query4 = constants.QUERY4_4_w1 +addWhere + constants.QUERY4_4_w2;
+				query4 = constants.QUERY4_4_w1 +where +addWhere + constants.QUERY4_4_w2;
 				query4_1 = constants.QUERY4_4_1;
 				query4_2 = constants.QUERY4_4_2;
-				query5 = constants.QUERY4_5 +addWhere;
+				query5 = constants.QUERY4_5 +where +addWhere;
 				query5_1 = constants.QUERY4_5_1;
 				query5_2 = constants.QUERY4_5_2;
+				query5_3 = constants.QUERY4_5_3;
+				query5_4 = constants.QUERY4_5_4;
 				times1 = timeConstants.TIMES_QUERY4_1;
 				times2 = timeConstants.TIMES_QUERY4_2;
 				times3 = timeConstants.TIMES_QUERY4_3;
@@ -415,19 +422,21 @@ public class Menu extends JFrame{
 				break;
 			case 5:
 				if(!addWhere.isEmpty()){
-					addWhere = " AND " + addWhere;
+					add = " AND ";
 				}
-				query1 = constants.QUERY5_1_w1+addWhere +constants.QUERY5_1_w2;
-				query2 = constants.QUERY5_2_w1 +addWhere +constants.QUERY5_2_w2;
-				query3 = constants.QUERY5_3_w1 +addWhere+ constants.QUERY5_3_w2;
+				query1 = constants.QUERY5_1_w1+ add +addWhere +constants.QUERY5_1_w2;
+				query2 = constants.QUERY5_2_w1 +add +addWhere +constants.QUERY5_2_w2;
+				query3 = constants.QUERY5_3_w1 +add +addWhere+ constants.QUERY5_3_w2;
 				query3_1 = constants.QUERY5_3_1;
 				query3_2 = constants.QUERY5_3_2;
-				query4 = constants.QUERY5_4_w1 +addWhere +constants.QUERY5_4_w2;
+				query4 = constants.QUERY5_4_w1 +add +addWhere +constants.QUERY5_4_w2;
 				query4_1 = constants.QUERY5_4_1;
 				query4_2 = constants.QUERY5_4_2;
-				query5 = constants.QUERY5_5 +addWhere;
+				query5 = constants.QUERY5_5;
 				query5_1 = constants.QUERY5_5_1;
 				query5_2 = constants.QUERY5_5_2;
+				query5_3 = constants.QUERY5_5_3;
+				query5_4 = constants.QUERY5_5_4;
 				times1 = timeConstants.TIMES_QUERY5_1;
 				times2 = timeConstants.TIMES_QUERY5_2;
 				times3 = timeConstants.TIMES_QUERY5_3;
@@ -436,19 +445,21 @@ public class Menu extends JFrame{
 				break;
 			case 6:
 				if(!addWhere.isEmpty()){
-					addWhere = " HAVING " + addWhere;
+					having = " HAVING ";
 				}
-				query1 = constants.QUERY6_1 + addWhere;
-				query2 = constants.QUERY6_2 + addWhere;
-				query3 = constants.QUERY6_3 + addWhere;
+				query1 = constants.QUERY6_1 + having +addWhere;
+				query2 = constants.QUERY6_2 + having +addWhere;
+				query3 = constants.QUERY6_3 + having +addWhere;
 				query3_1 = constants.QUERY6_3_1;
 				query3_2 = constants.QUERY6_3_2;
-				query4 = constants.QUERY6_4 + addWhere;
+				query4 = constants.QUERY6_4 + having +addWhere;
 				query4_1 = constants.QUERY6_4_1;
 				query4_2 = constants.QUERY6_4_2;
 				query5 = constants.QUERY6_5;
 				query5_1 = constants.QUERY6_5_1;
 				query5_2 = constants.QUERY6_5_2;
+				query5_3 = constants.QUERY6_5_3;
+				query5_4 = constants.QUERY6_5_4;
 				times1 = timeConstants.TIMES_QUERY6_1;
 				times2 = timeConstants.TIMES_QUERY6_2;
 				times3 = timeConstants.TIMES_QUERY6_3;
@@ -457,19 +468,21 @@ public class Menu extends JFrame{
 				break;
 			case 7:
 				if(!addWhere.isEmpty()){
-					addWhere = " AND " + addWhere;
+					add = " AND ";
 				}
-				query1 = constants.QUERY7_1 +addWhere;
-				query2 = constants.QUERY7_2 +addWhere;
-				query3 = constants.QUERY7_3 +addWhere;
+				query1 = constants.QUERY7_1 + add +addWhere;
+				query2 = constants.QUERY7_2 +add +addWhere;
+				query3 = constants.QUERY7_3 +add +addWhere;
 				query3_1 = constants.QUERY7_3_1;
 				query3_2 = constants.QUERY7_3_2;
-				query4 = constants.QUERY7_4 +addWhere;
+				query4 = constants.QUERY7_4 +add +addWhere;
 				query4_1 = constants.QUERY7_4_1;
 				query4_2 = constants.QUERY7_4_2;
 				query5 = constants.QUERY7_5;
 				query5_1 = constants.QUERY7_5_1;
 				query5_2 = constants.QUERY7_5_2;
+				query5_3 = constants.QUERY7_5_3;
+				query5_4 = constants.QUERY7_5_4;
 				times1 = timeConstants.TIMES_QUERY7_1;
 				times2 = timeConstants.TIMES_QUERY7_2;
 				times3 = timeConstants.TIMES_QUERY7_3;
@@ -477,6 +490,7 @@ public class Menu extends JFrame{
 				times5 = timeConstants.TIMES_QUERY7_5;
 				break;
 		}
+		System.out.println("hello");
 		resultPanel1.setQuery(query1);
 		resultPanel1.setTablePanel(query1);
 		resultPanel1.setTimes(times1);
@@ -486,24 +500,25 @@ public class Menu extends JFrame{
 		resultPanel2.setTimes(times2);
 		
 		resultPanel3.setQuery(query3_1+query3+query3_2);
-		System.out.println(query3_1+query3+query3_2);
 		resultPanel3.execBatch(query3_1);
 		resultPanel3.setTablePanel(query3);
 		resultPanel3.execBatch(query3_2);
 		resultPanel3.setTimes(times3);
 		
 		resultPanel4.setQuery(query4_1+query4+query4_2);
-		System.out.println(query4_1+query4+query4_2);
 		resultPanel4.execUpdate(query4_1);
 		resultPanel4.setTablePanel(query4);
 		resultPanel4.execUpdate(query4_2);
 		resultPanel4.setTimes(times4);
 
-		/*resultPanel5.setQuery(query5_1+query5+query5_2);
+		resultPanel5.setQuery(query5_1+query5_2+query5+query5_3+query5_4);
 		resultPanel5.execUpdate(query5_1);
+		resultPanel5.execUpdate(query5_2);
 		resultPanel5.setTablePanel(query5);
-		resultPanel5.execUpdate(query5_2);*/
+		resultPanel5.execUpdate(query5_3);
+		resultPanel5.execUpdate(query5_4);
 		resultPanel5.setTimes(times5);
+		System.out.println("bye");
 	}
 	
 	public int getQuerySelected() {
