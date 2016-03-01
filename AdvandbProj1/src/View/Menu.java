@@ -307,7 +307,6 @@ public class Menu extends JFrame{
 				addFilteringOption(setComboBoxFilter());
 	    	}
 	    	else if (button == btnSearch){
-	    		System.out.println("searching");
 				try {
 					setTableResults(getFilterOptions());
 				} catch (SQLException e1) {
@@ -502,7 +501,6 @@ public class Menu extends JFrame{
 				times5 = timeConstants.TIMES_QUERY7_5;
 				break;
 		}
-		System.out.println("hello");
 		resultPanel1.setQuery(query1);
 		resultPanel1.setTablePanel(query1);
 		resultPanel1.setTimes(times1);
@@ -530,7 +528,6 @@ public class Menu extends JFrame{
 		resultPanel5.execUpdate(query5_3);
 		resultPanel5.execUpdate(query5_4);
 		resultPanel5.setTimes(times5);
-		System.out.println("bye");
 	}
 	
 	public int getQuerySelected() {
