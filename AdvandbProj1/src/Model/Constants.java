@@ -550,12 +550,8 @@ public class Constants {
 					+ "(select A.id, house_income \n"
 					+ "from (select id, zone,mun,brgy \n"
 					+ "from hpq_hh \n"
-					+ "where prevmind = 1) A, \n"
-					+ "sum_income \n"
-					+ "where A.id = sum_income.id) C \n"
-					+ "where D.hpq_hh_id = C.id \n"
-					+ "group by mdeady ";
-    public static final String QUERY5_5_2_w3 = " ) A, \n"
+					+ "where prevmind = 1 ";
+    public static final String QUERY5_5_2_w3 = " group by mdeady) A, \n"
 			+ "sum_income \n"
 			+ "where A.id = sum_income.id) C \n"
 			+ "where D.hpq_hh_id = C.id \n"
@@ -873,7 +869,7 @@ public class Constants {
 	public static final String QUERY7_5_1 = "CREATE VIEW SPO AS select hpq_hh_id,phiheal_spon_mem_refno, count(*) as Sponsored_members \n"
 			+ "from hpq_phiheal_spon_mem \n"
 			+ "group by hpq_hh_id,phiheal_spon_mem_refno \n";
-	public static final String QUERY7_5_2_w1 = "create procedure health_insurance_procedure("
+	public static final String QUERY7_5_2_w1 = "create procedure health_insurance_procedure( ";
 	public static final String QUERY7_5_2_w2 = " )"
 					+ " select H.id, H.memno, OFW.OFW_members, Employed_members, Individually_paying_members, Sponsored_members, Lifetime_members \n"+
 					" from hpq_mem H  \n"+
