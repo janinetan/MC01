@@ -85,22 +85,24 @@ public class Constants {
 	public static final String QUERY1_5_1 = "CREATE VIEW household_num as \n"
 			+ "select count(*) as total_houses \n"
 			+ "from hpq_hh \n";
-	public static final String QUERY1_5_2_w1 = "create procedure food_shortage_households("
+	public static final String QUERY1_5_2_w1 = "create procedure food_shortage_households( "
 		;
 	public static final String QUERY1_5_2_w2 =  ") \n"
 			+ "select num_hungry as 'Households that have experienced food shortage', num_hungry/total_houses*100 as 'Percentage among total households', benefited/num_hungry*100 as 'Percentage of hungry households that have benefited from food for work/food for school' \n"
 			+ "from (select count(*) as num_hungry \n"
 			+ "from hpq_hh \n"
 			+ "where fshort = 1 ";
-	public static final String QUERY1_5_2_w3 = " ) NH, \n"
-			+ "household_num, \n"
+	public static final String QUERY1_5_2_w3 = 
+			" ) NH, \n"
+			+ "(select count(*) as total_houses \n"
+			+ "from hpq_hh) TH, \n"
 			+ "(select count(*) as benefited \n"
 			+ "from hpq_hh \n"
-			+ "where prog_fudforwrk = 1 or prog_fudforsch = 1 and fshort = 1 "; 
+			+ "where prog_fudforwrk = 1 or prog_fudforsch = 1 and fshort = 1 ";
 	public static final String QUERY1_5_2_w4 = " ) B ";
 	public static final String QUERY1_5_w1 = "call food_shortage_households( ";
-	public static final String QUERY1_5_w2 = " )";
-	public static final String QUERY1_5_3 = "DROP PROCEDURE IF EXISTS food_shortage_households";
+	public static final String QUERY1_5_w2 = " )\n";
+	public static final String QUERY1_5_3 = "DROP PROCEDURE IF EXISTS food_shortage_households\n";
 	public static final String QUERY1_5_4 = "DROP VIEW household_num";
 	
 	
@@ -150,10 +152,10 @@ public class Constants {
 			+ "WHERE prog_phiheal_spon_nmem = 0 AND prog_phiheal_indiv_nmem = 0 AND prog_phiheal_ofw_nmem = 0 AND prog_phiheal_life_nmem = 0 AND prog_phiheal_empl_nmem = 0 ";
 	public static final String QUERY2_5_2 = 
 			"create procedure no_insurance_proc() "
-			+ "select *"
+			+ "select "
 			+ "from no_insurance ";
-	public static final String QUERY2_5 = "call no_insurance_proc()";
-	public static final String QUERY2_5_3 = "DROP PROCEDURE IF EXISTS no_insurance_proc";
+	public static final String QUERY2_5 = "call no_insurance_proc()\n";
+	public static final String QUERY2_5_3 = "DROP PROCEDURE IF EXISTS no_insurance_proc\n";
 	public static final String QUERY2_5_4 = "DROP VIEW NO_INSURANCE;";
 	
 	
@@ -222,8 +224,8 @@ public class Constants {
 			+ "(select count(*) as livebirths \n"
 			+ "from hpq_mem \n"
 			+ "where age < 1) L \n";
-	public static final String QUERY3_5 = "CALL infant_mortality()"; 
-	public static final String QUERY3_5_3 = "DROP PROCEDURE IF EXISTS no_insurance_proc;";
+	public static final String QUERY3_5 = "CALL infant_mortality()\n"; 
+	public static final String QUERY3_5_3 = "DROP PROCEDURE IF EXISTS no_insurance_proc;\n";
 	public static final String QUERY3_5_4 = "DROP VIEW DEATH;";
 	
 	/*QUERY 4*/
@@ -334,7 +336,7 @@ public class Constants {
 			+ "end \n"
 			+ "as 'Cause of Death', count(*)/num_households*100000 as 'Cause-specific death rate per 100,000 people' \n"
 			+ "from household, hpq_death ";
-	public static final String QUERY4_4_w2 = "group by mdeady; ";
+	public static final String QUERY4_4_w2 = " group by mdeady; ";
 	public static final String QUERY4_4_2 = "DROP VIEW household";
 	
 	//5th Implementation
@@ -364,12 +366,13 @@ public class Constants {
 					+ "when 16 then 'Murder' \n"
 					+ "else 'Others' \n"
 					+ "end \n"
-					+ "as 'Cause of Death', count(*)/num_households*100000 as 'Cause-specific death rate per 100,000 people' \n"
-					+ "from household, hpq_death ";
-	public static final String QUERY4_5_2_w3 = "group by mdeady; ";
+					+ "as 'Cause of Death', count(*)/Population*100000 as 'Cause-specific death rate per 100,000 people' \n"
+					+ "from (select count(*) as Population \n"
+					+ "from hpq_hh) P, hpq_death ";
+	public static final String QUERY4_5_2_w3 = " group by mdeady ";
 	public static final String QUERY4_5_w1 = "CALL cause_spec_death_rate( ";
-	public static final String QUERY4_5_w2 = " )";
-	public static final String QUERY4_5_3 = "DROP PROCEDURE cause_spec_death_rate";
+	public static final String QUERY4_5_w2 = " )\n";
+	public static final String QUERY4_5_3 = "DROP PROCEDURE IF EXISTS cause_spec_death_rate\n";
 	public static final String QUERY4_5_4 = "DROP VIEW household";
 			
 	
@@ -546,19 +549,21 @@ public class Constants {
 					+ "when 16 then 'Murder' \n"
 					+ "else 'Others' \n"
 					+ "end as 'Cause of death', avg(house_income) as 'Average household income of victims' \n"
-					+ "from hpq_death D, \n"
-					+ "(select A.id, house_income \n"
-					+ "from (select id, zone,mun,brgy \n"
-					+ "from hpq_hh \n"
-					+ "where prevmind = 1 ";
-    public static final String QUERY5_5_2_w3 = " group by mdeady) A, \n"
-			+ "sum_income \n"
-			+ "where A.id = sum_income.id) C \n"
-			+ "where D.hpq_hh_id = C.id \n"
-			+ "group by mdeady ";
+					+ "from hpq_death D join "
+					+ " (select A.id, house_income"
+					+ " from (select id,zone, mun,brgy"
+					+ " from hpq_hh"
+					+ " where prevmind = 1 ";
+public static final String QUERY5_5_2_w3 =" ) A join"
+					+ " (select id, sum(wagcshm) as house_income "
+					+ " from hpq_mem "
+					+ " where wagcshm != 0"
+					+ " group by id) B on A.id = B.id) C "
+					+ " on D.hpq_hh_id = C.id "
+					+ "group by mdeady";
 	public static final String QUERY5_5_w1 = "call cause_of_death( ";
-	public static final String QUERY5_5_w2 = " )";
-	public static final String QUERY5_5_3 = "DROP PROCEDURE cause_of_death";
+	public static final String QUERY5_5_w2 = " )\n";
+	public static final String QUERY5_5_3 = "DROP PROCEDURE cause_of_death\n";
 	public static final String QUERY5_5_4 = "DROP VIEW SUM_INCOME";
 	
 	/*QUERY 6*/
@@ -738,8 +743,8 @@ public class Constants {
 			+ "where pwd_ind = 1 \n"
 			+ "group by pwd_type";
 	public static final String QUERY6_5_w1 = "call disabilities_procedure( ";
-	public static final String QUERY6_5_w2 = " )";
-	public static final String QUERY6_5_3 = "DROP PROCEDURE IF EXISTS disabilities_procedure";
+	public static final String QUERY6_5_w2 = " )\n";
+	public static final String QUERY6_5_3 = "DROP PROCEDURE IF EXISTS disabilities_procedure\n";
 	public static final String QUERY6_5_4 = "DROP VIEW spo";
 	
 	
@@ -869,31 +874,33 @@ public class Constants {
 	public static final String QUERY7_5_1 = "CREATE VIEW SPO AS select hpq_hh_id,phiheal_spon_mem_refno, count(*) as Sponsored_members \n"
 			+ "from hpq_phiheal_spon_mem \n"
 			+ "group by hpq_hh_id,phiheal_spon_mem_refno \n";
-	public static final String QUERY7_5_2_w1 = "create procedure health_insurance_procedure( ";
-	public static final String QUERY7_5_2_w2 = " )"
-					+ " select H.id, H.memno, OFW.OFW_members, Employed_members, Individually_paying_members, Sponsored_members, Lifetime_members \n"+
-					" from hpq_mem H  \n"+
-					"  left join \n"+
-					"  (select hpq_hh_id, phiheal_ofw_mem_refno, count(*) as OFW_members \n"+
-					"  from hpq_phiheal_ofw_mem \n"+
-					"  group by hpq_hh_id,phiheal_ofw_mem_refno) OFW on H.id = OFW.hpq_hh_id AND H.memno = phiheal_ofw_mem_refno \n"+
-					"  left join \n"+
-					"  (select hpq_hh_id,phiheal_empl_mem_refno, count(*) as Employed_members \n"+
-					"  from hpq_phiheal_empl_mem \n"+
-					"  group by hpq_hh_id, phiheal_empl_mem_refno) EMP on H.id = EMP.hpq_hh_id AND H.memno = phiheal_empl_mem_refno \n"+
-					"  left join \n"+
-					"  (select hpq_hh_id, phiheal_indiv_mem_refno, count(*) as Individually_paying_members \n"+
-					"  from hpq_phiheal_indiv_mem \n"+
-					"  group by hpq_hh_id, phiheal_indiv_mem_refno) IND on H.id = IND.hpq_hh_id AND H.memno = phiheal_indiv_mem_refno \n"+
-					"  left join \n"+
-					"  (select hpq_hh_id, phiheal_life_mem_refno, count(*) as Lifetime_members \n"+
-					"  from hpq_phiheal_life_mem \n"+
-					"  group by hpq_hh_id,phiheal_life_mem_refno) LIF on H.id = LIF.hpq_hh_id AND H.memno = phiheal_life_mem_refno \n"+
-			        "  left join \n"+
-			        "  SPO on H.id = SPO.hpq_hh_id AND H.memno = phiheal_spon_mem_refno \n"+
-					" where not(OFW.OFW_members is null and Employed_members is null and Individually_paying_members is null and Sponsored_members is null and Lifetime_members is null) ";
-	public static final String QUERY7_5_w1 = "call procedure health_insurance_procedure( ";
-	public static final String QUERY7_5_w2 = " )";
-	public static final String QUERY7_5_3 = "DROP PROCEDURE IF EXISTS health_insurance_procedure";
+	public static final String QUERY7_5_2_w1 = " create procedure health_insurance_procedure( ";
+	public static final String QUERY7_5_2_w2 = " ) \n"
+					+ " select H.id, H.memno, H.sex, OFW.OFW_members, Employed_members, Individually_paying_members, Sponsored_members, Lifetime_members"
+					+ " from hpq_mem H "
+					+ " left join"
+					+ " (select hpq_hh_id, phiheal_ofw_mem_refno, count(*) as OFW_members"
+					+ " from hpq_phiheal_ofw_mem"
+					+ " group by hpq_hh_id,phiheal_ofw_mem_refno) OFW on H.id = OFW.hpq_hh_id AND H.memno = phiheal_ofw_mem_refno"
+					+ " left join"
+					+ " (select hpq_hh_id,phiheal_empl_mem_refno, count(*) as Employed_members"
+					+ " from hpq_phiheal_empl_mem"
+					+ " group by hpq_hh_id, phiheal_empl_mem_refno) EMP on H.id = EMP.hpq_hh_id AND H.memno = phiheal_empl_mem_refno"
+					+ " left join"
+					+ " (select hpq_hh_id, phiheal_indiv_mem_refno, count(*) as Individually_paying_members"
+					+ " from hpq_phiheal_indiv_mem"
+					+ " group by hpq_hh_id, phiheal_indiv_mem_refno) IND on H.id = IND.hpq_hh_id AND H.memno = phiheal_indiv_mem_refno"
+					+ " left join"
+					+ " (select hpq_hh_id, phiheal_life_mem_refno, count(*) as Lifetime_members"
+					+ " from hpq_phiheal_life_mem"
+					+ " group by hpq_hh_id,phiheal_life_mem_refno) LIF on H.id = LIF.hpq_hh_id AND H.memno = phiheal_life_mem_refno"
+					+ " left join"
+					+ " (select hpq_hh_id,phiheal_spon_mem_refno, count(*) as Sponsored_members"
+					+ " from hpq_phiheal_spon_mem"
+					+ " group by hpq_hh_id,phiheal_spon_mem_refno) SPO on H.id = SPO.hpq_hh_id AND H.memno = phiheal_spon_mem_refno"
+					+ " where not(OFW.OFW_members is null and Employed_members is null and Individually_paying_members is null and Sponsored_members is null and Lifetime_members is null)";
+	public static final String QUERY7_5_w1 = "call health_insurance_procedure( ";
+	public static final String QUERY7_5_w2 = " )\n";
+	public static final String QUERY7_5_3 = "DROP PROCEDURE IF EXISTS health_insurance_procedure\n";
 	public static final String QUERY7_5_4 = "DROP VIEW SPO";
 }

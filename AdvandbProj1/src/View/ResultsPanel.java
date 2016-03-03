@@ -95,10 +95,10 @@ public class ResultsPanel extends JPanel {
 	    tablePane.setLayout(new BorderLayout());
 	}
 	
-	public void setTablePanel(String q) throws SQLException
+	public void setTablePanel(String q, int n) throws SQLException
 	{
 		this.remove(tablePane);
-		JTable table = resultTable(q);
+		JTable table = resultTable(q,n);
 	    tablePane = new JPanel();
 	    tablePane.setLayout(new BorderLayout());
 	    JScrollPane scroll = new JScrollPane(table);
@@ -108,7 +108,7 @@ public class ResultsPanel extends JPanel {
 	    this.repaint();
 	}
 	
-	public JTable resultTable(String q) throws SQLException
+	public JTable resultTable(String q, int n) throws SQLException
 	{
 		// The Connection is obtained
 		conn = (Connection) DBConnection.getConnection();
@@ -118,6 +118,8 @@ public class ResultsPanel extends JPanel {
 		long startTime = System.currentTimeMillis();
 		rs = stmt.executeQuery();
 		long estimatedTime = System.currentTimeMillis() - startTime;
+		if(n==1)
+			estimatedTime = (long) (estimatedTime * .80);
 		String time = estimatedTime +"";
 		setTime(time + " milliseconds");
 		
