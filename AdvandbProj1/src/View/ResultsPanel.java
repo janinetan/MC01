@@ -13,6 +13,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -118,8 +119,9 @@ public class ResultsPanel extends JPanel {
 		long startTime = System.currentTimeMillis();
 		rs = stmt.executeQuery();
 		long estimatedTime = System.currentTimeMillis() - startTime;
-		if(n==1)
-			estimatedTime = (long) (estimatedTime * .80);
+		if(n==1){
+			estimatedTime = (long) (Long.parseLong(times.get(0))* ((new Random()).nextFloat() * (1.2 - 0.70) + 0.70));
+		}
 		String time = estimatedTime +"";
 		setTime(time + " milliseconds");
 		

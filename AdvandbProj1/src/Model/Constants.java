@@ -225,7 +225,7 @@ public class Constants {
 			+ "from hpq_mem \n"
 			+ "where age < 1) L \n";
 	public static final String QUERY3_5 = "CALL infant_mortality()\n"; 
-	public static final String QUERY3_5_3 = "DROP PROCEDURE IF EXISTS no_insurance_proc;\n";
+	public static final String QUERY3_5_3 = "DROP PROCEDURE IF EXISTS infant_mortality;\n";
 	public static final String QUERY3_5_4 = "DROP VIEW DEATH;";
 	
 	/*QUERY 4*/
